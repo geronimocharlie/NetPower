@@ -17,24 +17,28 @@ public class World extends JFrame {
     private boolean running;
     private ArrayList<Creature> all;
     public static int FPS;
-    public int ACCURACY;
+    public static int ACCURACY;
     public int AMOUNT_FOOD;
     private int steps = 0;
     private Field[][] fields;
+    public static Point[] food_positions;
+    public static int[] foodperq;
     public static float FIELD_SIZE_START;
     public static float CREATURE_SIZE_START;
     Point size;
     Paint paint;
-    public World(ArrayList<Creature> all, int FPS, int ACCURACY, int AMOUNT_FOOD, float FIELD_SIZE_START, float CREATURE_SIZE_START, Point size) {
+
+    public World(ArrayList<Creature> all, Point[] food_positions, int[] foodperq, Point size, int FPS, int ACCURACY) {
         this.all = all;
         this.FPS = FPS;
         this.ACCURACY = ACCURACY;
-        this.AMOUNT_FOOD = AMOUNT_FOOD;
-        this.FIELD_SIZE_START = FIELD_SIZE_START;
-        this.CREATURE_SIZE_START = CREATURE_SIZE_START;
         this.size = size;
+        this.food_positions = food_positions;
+        this.foodperq = foodperq;
         generateFrame();
+        System.out.println("World!");
     }
+
 
     public void generateFrame() {
 
@@ -115,16 +119,21 @@ public class World extends JFrame {
         topMenu.add(l_tps, BorderLayout.LINE_START);
         topMenu.add(slider, BorderLayout.LINE_END);
         paint = new Paint(this, all);
-        //handleResize(size);
+        handleResize(size);
         add(topMenu, BorderLayout.PAGE_START);
         add(paint, BorderLayout.CENTER);
         setVisible(true);
 
-        //this.verdfkt = verdunstungsfaktor;
-        //this.verdunstungExp = verdunstungExp;
+
         fields = new Field[16][16];// leeres Feld == null
         paint.setWorld(fields);// referenz der Welt zum zeichenen
-        //world[nestPos.x][nestPos.y] = new Feld(nestPos.x, nestPos.y, 0, 0, true);
+        int maxfoodperq = 0;
+        for (int ifq = 0; ifq < food_positions.length; ifq++) {// ifq -> idexFutterQuelle
+            if (foodperq[ifq] > maxfoodperq)
+                maxfoodperq = foodperq[ifq];
+            fields[food_positions[ifq].x][food_positions[ifq].y] = new Field(food_positions[ifq].x, food_positions[ifq].y, foodperq[ifq]);
+        }
+
         startAnimation();
     }
 
@@ -224,7 +233,7 @@ public class World extends JFrame {
                 if (field != null) {
 
                 }
-                    //field.reduceDuft(verdfkt, verdunstungExp);
+
             }
         }
 

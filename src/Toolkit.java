@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by Chrono on 19.05.2017.
@@ -23,5 +24,17 @@ public class Toolkit {
         g.setColor(Color.BLACK);
         g.fillOval((int) Math.round(x * scale), (int) Math.round(y * scale), (int) Math.round(sizeReal), (int) Math.round(sizeReal));
 
+    }
+
+    public static ArrayList<Creature> generate(int AMOUNT_CREATURES, int ENERGY, int SIGHT) {
+        ArrayList<Creature> all = new ArrayList<>();
+        int sex = (int)(Math.random() * 1);
+        int[] position = new int[]{0,0};
+        for(int i = 0; i < AMOUNT_CREATURES; i++) {
+            int ID = i;
+            Creature creature = new Creature(ID, ENERGY, position, SIGHT, sex);
+            all.add(creature);
+        }
+        return all;
     }
 }
