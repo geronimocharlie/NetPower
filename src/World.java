@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class World extends JFrame {
     private int ticks_ps = 500;
-    private boolean running;
+    private boolean running = true;
     private ArrayList<Creature> all;
     public static int FPS;
     public static int ACCURACY;
@@ -28,27 +28,32 @@ public class World extends JFrame {
     Point size;
     Paint paint;
 
-    World(ArrayList<Creature> all, Point[] food_positions, int[] foodperq, Point size, int FPS, int ACCURACY) {
-        super();
+    public World(ArrayList<Creature> all, Point[] food_positions, int[] foodperq, Point size, int FPS, int ACCURACY) {
+
+        paint = new Paint(this, all);
         this.all = all;
         this.FPS = FPS;
         this.ACCURACY = ACCURACY;
         this.size = size;
         this.food_positions = food_positions;
         this.foodperq = foodperq;
+
         generateFrame();
-        System.out.println("World!");
+
+    }
+    public World() {
+        System.out.println("World EMPTY!");
     }
 
 
-    public void generateFrame() {
 
+    public void generateFrame() {
+        Toolkit.progress("Generate World");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-        }
+
         setSize(700, 700);
+        Toolkit.step("Size set");
+
         addWindowListener(new WindowListener() {
 
             @Override
@@ -103,10 +108,11 @@ public class World extends JFrame {
             }
         });
         setLocation(0, 0);
-        setLayout(new BorderLayout());
-        setVisible(true);
-        JPanel topMenu = new JPanel(new BorderLayout(20, 20));
-        topMenu.setBorder(new EmptyBorder(20, 20, 20, 20));
+        Toolkit.step("Location set");
+        setLayout(new BorderLayout()); Toolkit.step("Location set");
+        setVisible(true); Toolkit.step("Visibility set");
+        JPanel topMenu = new JPanel(new BorderLayout(20, 20)); Toolkit.step("Top Menu set");
+        topMenu.setBorder(new EmptyBorder(20, 20, 20, 20)); Toolkit.step("Top Menu Border set");
         JLabel l_tps = new JLabel("Schritte pro Seunde: 501");
         JSlider slider = new JSlider(0, 35);
         slider.setValue(27);
@@ -124,34 +130,38 @@ public class World extends JFrame {
         });
         topMenu.add(l_tps, BorderLayout.LINE_START);
         topMenu.add(slider, BorderLayout.LINE_END);
-        paint = new Paint(this, all);
-        handleResize(size);
+
+        handleResize(size); Toolkit.step("Resize handled");
         add(topMenu, BorderLayout.PAGE_START);
-        add(paint, BorderLayout.CENTER);
+        add(paint, BorderLayout.CENTER); Toolkit.step("Paint added to Layout");
         setVisible(true);
 
 
-        fields = new Field[16][16];// leeres Feld == null
+        fields = new Field[size.x][size.y];// leeres Feld == null
         paint.setWorld(fields);// referenz der Welt zum zeichenen
         int maxfoodperq = 0;
-        for (int ifq = 0; ifq < food_positions.length; ifq++) {// ifq -> idexFutterQuelle
+        /*for (int ifq = 0; ifq < food_positions.length; ifq++) {// ifq -> idexFutterQuelle
             if (foodperq[ifq] > maxfoodperq)
                 maxfoodperq = foodperq[ifq];
             fields[food_positions[ifq].x][food_positions[ifq].y] = new Field(food_positions[ifq].x, food_positions[ifq].y, foodperq[ifq]);
         }
-        paint.setMaxFood(maxfoodperq);
+        paint.setMaxFood(maxfoodperq);*/
+
 
         startAnimation();
     }
 
     private void startAnimation() {
+        Toolkit.progress("Start Animation");
         startDrawThread();
         new Thread() {
             public void run() {
+                Toolkit.step("Animation Thread started");
                 try {
                     int warten;
                     long last = System.currentTimeMillis(), latest;
                     int ticks_ps = World.this.ticks_ps;
+                    Toolkit.step("Ticks PS : " + ticks_ps);
                     float millsStepInterval = 1000f / ticks_ps;
                     int i = 1;
                     for (steps = 0; steps < Integer.MAX_VALUE - ticks_ps && running; steps++) {
@@ -179,13 +189,14 @@ public class World extends JFrame {
                     e.printStackTrace();
                     interrupt();
                 }
-
+                Toolkit.step("Animation Thread finished");
             }
         }.start();
 
     }
 
     private void startDrawThread() {
+        Toolkit.step("Draw Thread started");
         new Thread() {
             public void run() {
                 float millsFrameInterval = 1000f / FPS;// e.g. render 1 frame in 1000/60 millisec
@@ -215,6 +226,7 @@ public class World extends JFrame {
 
             }
         }.start();
+        Toolkit.step("Draw Thread finished");
     }
 
     public int getSteps() {
@@ -230,6 +242,7 @@ public class World extends JFrame {
     }
 
     private void nextTick() {
+
         // Ameisen bewegen
         for (Creature creature : all)
             Actions.move(creature);

@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputListener;
 
 public class Start extends JFrame {
@@ -46,7 +44,7 @@ public class Start extends JFrame {
     // standard values for advanced settings:
     public static final boolean RULE_IGNORE_TRACE = true;
 
-    public static final int FUTTER_PRO_QUELLE = 50;
+    public static final int FOOD_PER_SOURCE = 50;
 
     public Start() {
         super("Artificial Life Simulation");
@@ -258,7 +256,8 @@ public class Start extends JFrame {
 
                         Point size = new Point(size_x, size_y); //nest = new Point(anzNestX, anzNestY);
                         //new World(all, FPS, ACCURACY, AMOUNT_FOOD, FIELD_SIZE_START, CREATURE_SIZE_START, size);
-                        new World(Toolkit.generate(AMOUNT_CREATURES, ENERGY, SIGHT), getFoodPositions(size), getFutterProQ(), size, FPS, ACCURACY);
+                        Point[] food_points = Toolkit.generateFood(size, "10");
+                        new World(Toolkit.generate(AMOUNT_CREATURES, ENERGY, SIGHT), food_points, Toolkit.foodPerSource(food_points.length, FOOD_PER_SOURCE), size, FPS, ACCURACY);
                         //STOPS HERE !!!!
 
                                             }
@@ -323,7 +322,7 @@ public class Start extends JFrame {
             if (i < list_fq.size())
                 p[i] = list_fq.get(i).getFutter();
             else
-                p[i] = FUTTER_PRO_QUELLE;
+                p[i] = FOOD_PER_SOURCE;
         }
         return p;
     }
@@ -366,7 +365,7 @@ public class Start extends JFrame {
             JLabel l_name = new JLabel("Futterquelle [Position x] [Position y] [Futtereinheiten]");
             tf_posX = new JTextField(newRandomPos(true), 5);
             tf_posY = new JTextField(newRandomPos(false), 5);
-            tf_anzFutter = new JTextField("" + FUTTER_PRO_QUELLE, 5);
+            tf_anzFutter = new JTextField("" + FOOD_PER_SOURCE, 5);
             JButton btn_delete = new JButton("Delete");
             btn_delete.addActionListener(e -> {
                 list_fq.remove(this);

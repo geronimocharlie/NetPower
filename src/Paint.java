@@ -43,14 +43,14 @@ public class Paint extends JPanel {
         g.drawString("Steps per sec: " + tps, 100, 20);
         for (int x = 0; x < fields.length; x++) {
             for (int y = 0; y < fields[x].length; y++) {
-                if (fields[x][y] != null)
+                  if (fields[x][y] != null)
                     //fields[x][y].draw(g, scale, maxFood);
                     Toolkit.drawFields(g, scale, maxFood, world.AMOUNT_FOOD, x, y);
             }
         }
         for (Creature creature : all) {
             //a.draw(g, scale);
-            Toolkit.drawCreature(g, scale, 1, creature.getPosition()[0], creature.getPosition()[1]);
+            Toolkit.drawCreature(g, scale, creature.size, creature.getPosition()[0], creature.getPosition()[1]);
         }
     }
 
