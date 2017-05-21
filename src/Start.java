@@ -254,11 +254,14 @@ public class Start extends JFrame {
                         JOptionPane.showMessageDialog(Start.this, "Bitte Zahlen > 0 eingeben.", "Falsche Eingabe", JOptionPane.ERROR_MESSAGE);
                     else {
                         System.out.println("okay");
+
+
                         Point size = new Point(size_x, size_y); //nest = new Point(anzNestX, anzNestY);
                         //new World(all, FPS, ACCURACY, AMOUNT_FOOD, FIELD_SIZE_START, CREATURE_SIZE_START, size);
-                        World world = new World(Toolkit.generate(AMOUNT_CREATURES, ENERGY, SIGHT), getFoodPositions(size), getFutterProQ(), size, FPS, ACCURACY);
-                        world.generateFrame();
-                    }
+                        new World(Toolkit.generate(AMOUNT_CREATURES, ENERGY, SIGHT), getFoodPositions(size), getFutterProQ(), size, FPS, ACCURACY);
+                        //STOPS HERE !!!!
+
+                                            }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(Start.this, "Bitte nur Ganzzahlen eingeben.", "Falsche Eingabe", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception e) {
@@ -291,7 +294,7 @@ public class Start extends JFrame {
         scrollP.getVerticalScrollBar().setUnitIncrement(10);
 
         add(scrollP);
-        add(btn_fertig, BorderLayout.SOUTH);
+        //add(btn_fertig, BorderLayout.SOUTH);
         pack();
         setVisible(true);
 

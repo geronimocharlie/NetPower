@@ -28,7 +28,8 @@ public class World extends JFrame {
     Point size;
     Paint paint;
 
-    public World(ArrayList<Creature> all, Point[] food_positions, int[] foodperq, Point size, int FPS, int ACCURACY) {
+    World(ArrayList<Creature> all, Point[] food_positions, int[] foodperq, Point size, int FPS, int ACCURACY) {
+        super();
         this.all = all;
         this.FPS = FPS;
         this.ACCURACY = ACCURACY;
@@ -43,6 +44,10 @@ public class World extends JFrame {
     public void generateFrame() {
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
         setSize(700, 700);
         addWindowListener(new WindowListener() {
 
@@ -99,6 +104,7 @@ public class World extends JFrame {
         });
         setLocation(0, 0);
         setLayout(new BorderLayout());
+        setVisible(true);
         JPanel topMenu = new JPanel(new BorderLayout(20, 20));
         topMenu.setBorder(new EmptyBorder(20, 20, 20, 20));
         JLabel l_tps = new JLabel("Schritte pro Seunde: 501");
@@ -133,6 +139,7 @@ public class World extends JFrame {
                 maxfoodperq = foodperq[ifq];
             fields[food_positions[ifq].x][food_positions[ifq].y] = new Field(food_positions[ifq].x, food_positions[ifq].y, foodperq[ifq]);
         }
+        paint.setMaxFood(maxfoodperq);
 
         startAnimation();
     }
