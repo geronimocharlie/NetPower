@@ -111,5 +111,46 @@ public class Toolkit {
         return b;
     }
 
+    // return a random m-by-n matrix with values between 0 and 1
+    // use to fill matrix with random weights
+    public static double[][] random(int m, int n) {
+        double[][] a = new double[m][n];
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++) {
+                a[i][j] = Math.random();
+            }
+        return a;
+    }
+
+    // return x^T y
+    public static double dot(double[] x, double[] y) {
+        if (x.length != y.length) throw new RuntimeException("Illegal vector dimensions.");
+        double sum = 0.0;
+        for (int i = 0; i < x.length; i++)
+            sum += x[i] * y[i];
+        return sum;
+    }
+
+    // return B = A^T
+    public static double[][] transpose(double[][] x) {
+        int m = x.length;
+        int n = x[0].length;
+        double[][] a = new double[n][m];
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                a[j][i] = x[i][j];
+        return a;
+    }
+
+    //activation function
+    public static double[][] sigmoid(double[][] x) {
+        int m = x.length;
+        int n = x[0].length;
+        double[][] o = new double[n][m];
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                o[i][j] = 1 / (1 + Math.exp(-(x[i][j])));
+        return o;
+    }
 
 }
