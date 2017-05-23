@@ -3,7 +3,7 @@
  */
 public class Creature {
     private int id;
-    private int energy;
+    private float energy;
     private int[] position;
     private int age = 0;
     private int sight;
@@ -11,23 +11,25 @@ public class Creature {
     public static float size;
     public static float SIZE_START;
     private boolean crisis = false;
+    private boolean dead = false;
 
-    public Creature(int id, int energy, int[] position, int sight, int sex) {
+    public Creature(int id, float energy, int[] position, int sight, int sex, float SIZE_START) {
         this.id = id;
         this.energy = energy;
         this.position = position;
         this.sight = sight;
         this.sex = sex;
+        this.size = SIZE_START;
     }
 
 
     public int getId() {
         return this.id;
     }
-    public void setEnergy(int energy) {     //CHANGE ENERGY ONLY
+    public void setEnergy(float energy) {     //CHANGE ENERGY ONLY
         this.energy = energy;
     }
-    public int getEnergy() {                //TO PRINT ENERGY AND CHANGE IT
+    public float getEnergy() {                //TO PRINT ENERGY AND CHANGE IT
         return this.energy;
     }
 
@@ -45,4 +47,26 @@ public class Creature {
         return position;
     }
 
+
+    public void setSize(float SIZE_START) {
+        this.SIZE_START = SIZE_START;
+    }
+    public float getSize() {
+        return size;
+    }
+
+    public void setDead(boolean b) {
+        dead = b;
+    }
+    public boolean isDead() {
+        return dead;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }

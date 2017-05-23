@@ -8,6 +8,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Chrono on 19.05.2017.
@@ -113,9 +114,11 @@ public class World extends JFrame {
         setVisible(true); Toolkit.step("Visibility set");
         JPanel topMenu = new JPanel(new BorderLayout(20, 20)); Toolkit.step("Top Menu set");
         topMenu.setBorder(new EmptyBorder(20, 20, 20, 20)); Toolkit.step("Top Menu Border set");
-        JLabel l_tps = new JLabel("Schritte pro Seunde: 501");
+
         JSlider slider = new JSlider(0, 35);
-        slider.setValue(27);
+        slider.setValue(5);
+        ticks_ps = (int) Math.round(Math.pow(10, slider.getValue() / 10f));
+        JLabel l_tps = new JLabel("SPS: " + ticks_ps);
         slider.addChangeListener(new ChangeListener() {
 
             @Override
@@ -124,7 +127,7 @@ public class World extends JFrame {
                 synchronized (World.this) {
                     ticks_ps = (int) Math.round(Math.pow(10, slider.getValue() / 10f));
                 }
-                l_tps.setText("Schritte pro Seunde: " + ticks_ps);
+                l_tps.setText("SPS: " + ticks_ps);
 
             }
         });
@@ -234,29 +237,58 @@ public class World extends JFrame {
     }
 
     private void handleResize(Point size) {// scale so berechnet, dass alles auf das Fenster passt
-        double scale = Math.min(1d * getWidth() / size.x, (1d * getHeight() - 50) / size.y);
+        double scale = Math.min(1d * getWidth() / size.x, (1d * getHeight() - 100) / size.y);
         paint.setScale(scale);
 
-        Creature.size = (float) Math.max(Creature.SIZE_START, scale);
+        for(Creature creature : all) {
+            creature.size = (float) Math.max(creature.size, scale);
+        }
+
         Field.size = (float) Math.max(Field.SIZE_START, scale);
     }
 
-    private void nextTick() {
-
+    private void nextTick() throws InterruptedException {
         // Ameisen bewegen
-        for (Creature creature : all)
-            Actions.move(creature);
-        // Duft evtl verringern
-        for (int x = 0; x < fields.length; x++) {
-            for (int y = 0; y < fields[x].length; y++) {
-                Field field = fields[x][y];
-                if (field != null) {
+        for (Creature creature : all) {
+            //Random random = new Random();
+            //boolean move = random.nextBoolean();
+            double moveratio = (double) (Math.random() * creature.getAge() / 100);
 
+            //if(creature.getEnergy() > 10) {
+                if(moveratio < 5) {
+                    Actions.move(all, creature, size.x, size.y);
                 }
+                else {
+                    Actions.idle();
+                }
+            //}
+            //else {
+            //    Actions.die(creature);
+            //}
 
-            }
+            creature.setAge(creature.getAge() + 1);
+
+            /*for(Creature creature1 : all) {
+                for(Creature creature2 : all) {
+                    if(Toolkit.isNextTo(creature1, creature2)){
+
+
+                    }
+                }
+            }*/
+
+
         }
 
+
+
+    }
+    public int getDead() {
+        int i = 0;
+        for(Creature creature : all) {
+            if(creature.isDead()) i++;
+        }
+        return i;
     }
 
 }
