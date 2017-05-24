@@ -7,7 +7,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +17,7 @@ public class World extends JFrame {
     private int ticks_ps = 500;
     private boolean running = true;
     private List<Creature> all;
+    private List<Creature> grimReaperQueue = new ArrayList<>();
     public static int FPS;
     public static int ACCURACY;
     public int AMOUNT_FOOD;
@@ -255,26 +256,25 @@ public class World extends JFrame {
 
     private void nextTick() throws InterruptedException {
         // Ameisen bewegen
-        for (Creature creature : all) {
-            //Random random = new Random();
-            //boolean move = random.nextBoolean();
-            double moveratio = (double) (Math.random() * creature.getAge() / 100);
+        synchronized (all) {
+            for (Creature creature : all) {
+                //Random random = new Random();
+                //boolean move = random.nextBoolean();
+                double moveratio = (double) (Math.random() * creature.getAge() / 100);
 
-            //if(creature.getEnergy() > 10) {
-                if(moveratio < 5) {
+                //if(creature.getEnergy() > 10) {
+                if (moveratio < 5) {
                     actions.move(all, creature, size.x, size.y);
-                }
-                else {
+                } else {
                     actions.idle();
                 }
-            //}
-            //else {
-            //    actions.die(creature);
-            //}
+                //}
+                //else {
+                //    actions.die(creature);
+                //}
 
-            creature.setAge(creature.getAge() + 1);
+                creature.setAge(creature.getAge() + 1);
 
-            synchronized (all) {
                 for (Creature creature1 : all) {
                     for (Creature creature2 : all) {
                         if (Toolkit.isNextTo(creature1, creature2)) {
@@ -294,8 +294,13 @@ public class World extends JFrame {
                     }
                 }
             }
-
-
+            synchronized (grimReaperQueue) {
+                for (Creature dyingCreature : grimReaperQueue) {
+                    all.remove(dyingCreature);
+                    System.out.println("killed " + dyingCreature);
+                }
+                grimReaperQueue.clear();
+            }
         }
 
 
@@ -315,5 +320,10 @@ public class World extends JFrame {
         this.all = all;
     }
 
+    public void killLater(Creature c) {
+        synchronized (grimReaperQueue) {
+            grimReaperQueue.add(c);
+        }
+    }
 }
 

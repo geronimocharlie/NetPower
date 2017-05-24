@@ -67,19 +67,10 @@ public class Actions {
         }
     }*/
     public static void die(List<Creature> all, Creature creature) throws InterruptedException {
-
         creature.setDead(true);
-
-        synchronized (all) {
-            for (Creature cr : all) {
-                if (creature.getId() == cr.getId()) {
-                    //Thread.sleep(5000);
-                    all.remove(cr);
-                }
-            }
-        }
-
+        world.killLater(creature);
     }
+
     public static void idle() {
 
     }
