@@ -7,8 +7,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Chrono on 19.05.2017.
@@ -16,7 +16,7 @@ import java.util.Random;
 public class World extends JFrame {
     private int ticks_ps = 500;
     private boolean running = true;
-    private ArrayList<Creature> all;
+    private List<Creature> all;
     public static int FPS;
     public static int ACCURACY;
     public int AMOUNT_FOOD;
@@ -26,10 +26,11 @@ public class World extends JFrame {
     public static int[] foodperq;
     public static float FIELD_SIZE_START;
     public static float CREATURE_SIZE_START;
+    Actions actions;
     Point size;
     Paint paint;
 
-    public World(ArrayList<Creature> all, Point[] food_positions, int[] foodperq, Point size, int FPS, int ACCURACY) {
+    public World(List<Creature> all, Point[] food_positions, int[] foodperq, Point size, int FPS, int ACCURACY) {
 
         paint = new Paint(this, all);
         this.all = all;
@@ -167,6 +168,9 @@ public class World extends JFrame {
                     Toolkit.step("Ticks PS : " + ticks_ps);
                     float millsStepInterval = 1000f / ticks_ps;
                     int i = 1;
+
+                    actions = new Actions(paint, World.this);
+
                     for (steps = 0; steps < Integer.MAX_VALUE - ticks_ps && running; steps++) {
 
                         nextTick();
@@ -199,7 +203,7 @@ public class World extends JFrame {
     }
 
     private void startDrawThread() {
-        Toolkit.step("Draw Thread started");
+
         new Thread() {
             public void run() {
                 float millsFrameInterval = 1000f / FPS;// e.g. render 1 frame in 1000/60 millisec
@@ -240,8 +244,10 @@ public class World extends JFrame {
         double scale = Math.min(1d * getWidth() / size.x, (1d * getHeight() - 100) / size.y);
         paint.setScale(scale);
 
-        for(Creature creature : all) {
-            creature.size = (float) Math.max(creature.size, scale);
+        synchronized (all) {
+            for (Creature creature : all) {
+                creature.size = (float) Math.max(creature.size, scale);
+            }
         }
 
         Field.size = (float) Math.max(Field.SIZE_START, scale);
@@ -256,26 +262,38 @@ public class World extends JFrame {
 
             //if(creature.getEnergy() > 10) {
                 if(moveratio < 5) {
-                    Actions.move(all, creature, size.x, size.y);
+                    actions.move(all, creature, size.x, size.y);
                 }
                 else {
-                    Actions.idle();
+                    actions.idle();
                 }
             //}
             //else {
-            //    Actions.die(creature);
+            //    actions.die(creature);
             //}
 
             creature.setAge(creature.getAge() + 1);
 
-            /*for(Creature creature1 : all) {
-                for(Creature creature2 : all) {
-                    if(Toolkit.isNextTo(creature1, creature2)){
+            synchronized (all) {
+                for (Creature creature1 : all) {
+                    for (Creature creature2 : all) {
+                        if (Toolkit.isNextTo(creature1, creature2)) {
+                            if (creature1.getSex() != creature2.getSex()) {
+                                if (creature1.getAge() > 1000 && creature2.getAge() > 1000) {
+                                    Creature mother = null;
+                                    if (creature1.getSex() == 1) {
+                                        mother = creature1;
+                                    } else if (creature2.getSex() == 1) {
+                                        mother = creature2;
+                                    }
+                                    actions.reproduce(mother, all);
+                                }
+                            }
 
-
+                        }
                     }
                 }
-            }*/
+            }
 
 
         }
@@ -285,10 +303,16 @@ public class World extends JFrame {
     }
     public int getDead() {
         int i = 0;
-        for(Creature creature : all) {
-            if(creature.isDead()) i++;
+        synchronized (all) {
+            for(Creature creature : all) {
+                if(creature.isDead()) i++;
+            }
         }
         return i;
+    }
+
+    public void setAll(ArrayList<Creature> all) {
+        this.all = all;
     }
 
 }

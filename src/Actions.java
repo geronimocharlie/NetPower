@@ -1,19 +1,26 @@
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Chrono on 19.05.2017.
  */
 public class Actions {
+
     static int size_x, size_y;
     static Graphics g;
+    static Paint paint;
+    static World world;
     public Actions(int size_x, int size_y, Graphics g) {
         this.size_x = size_x;
         this.size_y = size_y;
         this.g = g;
     }
-    public static void move(ArrayList<Creature> all, Creature creature, int size_x, int size_y ) throws InterruptedException {
+    public Actions(Paint paint, World world) {
+        this.paint = paint;
+        this.world = world;
+    }
+    public static void move(List<Creature> all, Creature creature, int size_x, int size_y ) throws InterruptedException {
         if(creature.isDead() != true) {
             ArrayList<int[]> moves = new ArrayList<int[]>();
             moves.add(new int[]{1, 0});
@@ -44,7 +51,12 @@ public class Actions {
     public static void eat(Creature creature) {
 
     }
-    public static void reproduce(Creature creature, ArrayList<Creature> all) {
+    public static void reproduce(Creature creature, java.util.List<Creature> all) {
+        int id = Toolkit.getID(all);
+        Creature baby = new Creature(id, 50, creature.getPosition(), 2, Toolkit.generateSex(), creature.getSize());
+        all.add(baby);
+
+
 
     }
     /*public static void die(Creature creature, ArrayList<Creature> all) {
@@ -54,15 +66,18 @@ public class Actions {
             }
         }
     }*/
-    public static void die(ArrayList<Creature> all, Creature creature) throws InterruptedException {
-        ArrayList<Creature> alls = all;
+    public static void die(List<Creature> all, Creature creature) throws InterruptedException {
+
         creature.setDead(true);
-        //Thread.sleep(5000);
-        /*for(Creature cr : alls) {
-            if(creature.getId() == cr.getId()) {
-                all.remove(cr);
+
+        synchronized (all) {
+            for (Creature cr : all) {
+                if (creature.getId() == cr.getId()) {
+                    //Thread.sleep(5000);
+                    all.remove(cr);
+                }
             }
-        }*/
+        }
 
     }
     public static void idle() {

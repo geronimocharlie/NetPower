@@ -3,7 +3,8 @@
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.security.cert.CRLException;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -14,7 +15,7 @@ public class Paint extends JPanel {
     private double scale;
     private int maxFood = 0;
     private int[] food_positions;
-    private ArrayList<Creature> all;
+    private List<Creature> all;
     private long last = System.currentTimeMillis(), latest;
     private int lastdead = -1;
     int fps = 0, tps = 0;
@@ -24,11 +25,15 @@ public class Paint extends JPanel {
     boolean[] deads;
 
 
-    public Paint(World world, ArrayList<Creature> all) {
+    public Paint(World world, java.util.List<Creature> all) {
         super();
         this.world = world;
         this.all = all;
         setBackground(Color.WHITE);
+        deads = new boolean[all.size()];
+    }
+    public void resize(ArrayList<Creature> all) {
+        this.all = all;
         deads = new boolean[all.size()];
     }
 
@@ -70,8 +75,10 @@ public class Paint extends JPanel {
         }
 
         g.drawString("Dead Creatures: " + world.getDead(), 200, 50);
-        for (Creature creature : all) {
-            Toolkit.drawCreature(g, creature, scale, creature.size, creature.getPosition()[0], creature.getPosition()[1]);
+        synchronized (all) {
+            for (Creature creature : all) {
+                Toolkit.drawCreature(g, creature, scale, creature.size, creature.getPosition()[0], creature.getPosition()[1]);
+            }
         }
         
     }

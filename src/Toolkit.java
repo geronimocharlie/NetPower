@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Chrono on 19.05.2017.
@@ -46,15 +48,15 @@ public class Toolkit {
 
     }
 
-    public static ArrayList<Creature> generate(int AMOUNT_CREATURES, int ENERGY, int SIGHT, int size_x, int size_y) {
+    public static List<Creature> generate(int AMOUNT_CREATURES, int ENERGY, int SIGHT, int size_x, int size_y) {
         progress("Generate Creatures");
-        ArrayList<Creature> all = new ArrayList<>();
+        List<Creature> all = Collections.synchronizedList(new ArrayList<Creature>());
 
 
         for(int i = 0; i < AMOUNT_CREATURES; i++) {
             int ID = i;
             int[] position = new int[]{randomPos(size_x),randomPos(size_y)};
-            int sex = (int)(Math.random() * 2) ;
+            int sex = generateSex();
             float size = (float) (Math.random() * 9) + 7;
             Creature creature = new Creature(ID, ENERGY, position, SIGHT, sex, size);
             System.out.println("\t" + creature.getId() + ". " + "ENERGY: " + creature.getEnergy() + " - SIGHT: " + SIGHT + " - SEX: " + creature.getSex() + " - SIZE: " + creature.size);
@@ -102,8 +104,8 @@ public class Toolkit {
 
         int p2x = position2[0]; int p2y = position2[1];
 
-        if(p1x - p2x == 1 || p1x - p2x == -1) b = true;
-        else if (p1y - p2y == 1 || p1y - p2y == -1) {
+        if((p1x - p2x == 1 && p1y == p2y)||( p1x - p2x == -1 && p1y == p2y)) b = true;
+        else if ((p1y - p2y == 1 && p1x == p2x)||( p1y - p2y == -1 && p1x == p2x)) {
             b = true;
         }
         else b = false;
@@ -151,6 +153,24 @@ public class Toolkit {
             for (int j = 0; j < n; j++)
                 o[i][j] = 1 / (1 + Math.exp(-(x[i][j])));
         return o;
+    }
+
+    public static int getID(List<Creature> all) {
+        int id = 0;
+        synchronized (all) {
+            for (Creature creature : all) {
+                if (creature.getId() > id) {
+                    id = creature.getId();
+                }
+            }
+
+        }
+        return id;
+    }
+
+    public static int generateSex() {
+        int sex = (int)(Math.random() * 2);
+        return sex;
     }
 
 }
