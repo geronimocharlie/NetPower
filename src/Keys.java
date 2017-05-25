@@ -14,10 +14,10 @@ public class Keys {
     private static int CREATURE_SIZE = 10;
 
 
-    private static int MATURE = 1000; //TIME TO BECOME MATURE AND ABLE TO REPRODUCE //BETWEEN 730 and 735 is decided whether it will die or overflow
+    private static int MATURE = 700; //TIME TO BECOME MATURE AND ABLE TO REPRODUCE //BETWEEN 730 and 735 is decided whether it will die or overflow
     private static int PREGNANCY_INTERVAL = 1000; //IN WHICH INTERVAL WOMEN CAN GET PREGNANT
 
-    private static int DEAD_ENERGY = 200; //ENERGY NEEDED TO DIE
+    private static int DEAD_ENERGY = 100; //ENERGY NEEDED TO DIE
 
     private static int MOVE_ENERGY = 1; //STAY AT 1, EVERYTHING ABOVE KILLS
 

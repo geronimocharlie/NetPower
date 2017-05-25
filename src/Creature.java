@@ -86,4 +86,12 @@ public class Creature {
     public void setPregnancyYear(int pregnancy_year) {
         this.pregnancy_year = pregnancy_year;
     }
+
+    public int getSight() {
+        return sight;
+    }
+
+    public void setSight(int sight) {
+        this.sight = sight;
+    }
 }

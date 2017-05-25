@@ -270,8 +270,8 @@ public class World extends JFrame {
 
                 creature.setAge(creature.getAge() + 1);
                 year++;
-
-
+                int[][] surround = Toolkit.surroundings(creature, all, foods);
+                System.out.println("");
                     for (Creature creature2 : all) {
                         if (Toolkit.isNextTo(creature, creature2)) {
                             if (creature.getSex() != creature2.getSex()) {
@@ -301,6 +301,8 @@ public class World extends JFrame {
                 else if((creature.getPregnancyYear() + Keys.getPregnancyInterval() <= year) && creature.isPregnant()) {
                     creature.setPregnant(false);
                 }
+
+
 
             }
             handleQueues();

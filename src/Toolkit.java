@@ -186,6 +186,37 @@ public class Toolkit {
                 o[i][j] = 1 / (1 + Math.exp(-(x[i][j])));
         return o;
     }
+    public static int[][] surroundings(Creature creature, List<Creature> all, List<Food> foods) {
+        int size = creature.getSight() * 2 + 1;
+        int[][] surround = new int[size][size];
+        int[] position = creature.getPosition();
+        int[] currentPos = new int[2];
+        int tempx, tempy;
+        for(int i = 0; i < size; i++) {
+            for(int u = 0; u < size; u++) {
+                currentPos[0] = position[0] - u - creature.getSight();
+                currentPos[1] = position[1] - i - creature.getSight();
+
+                synchronized (all) {
+                    for (Creature creature1 : all) {
+                        if (creature1.getPosition() == currentPos) {
+                            surround[u][i] = 1;
+                        }
+                    }
+                }
+                synchronized (foods) {
+                    for (Food food : foods) {
+                        if (food.getPosition() == currentPos) {
+                            surround[u][i] = 2;
+                        }
+                    }
+                }
+                System.out.println("");
+            }
+        }
+
+        return surround;
+    }
 
     public static int getID(List<Creature> all) {
         int id = 0;
