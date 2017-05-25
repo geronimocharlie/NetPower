@@ -14,8 +14,8 @@ import java.util.List;
  * Created by Chrono on 19.05.2017.
  */
 public class World extends JFrame {
-    public int ticks_ps = 500;
-    public boolean running = true;
+    private int ticks_ps = 500;
+    private boolean running = true;
     private int year = 0;
     private List<Creature> all;
     private List<Food> foods;
@@ -23,8 +23,8 @@ public class World extends JFrame {
     private List<Creature> baby_queue = new ArrayList<>();
     private List<Food> eat_queue = new ArrayList<>();
     private List<Food> spawn_queue = new ArrayList<>();
-    public static int FPS;
-    public static int ACCURACY;
+    public static int FPS = Keys.getFPS();
+    public static int ACCURACY = Keys.getACCURACY();
 
     private int steps = 0;
     private Field[][] fields;
@@ -36,13 +36,11 @@ public class World extends JFrame {
     Creature lastDead;
     int dead_counter;
 
-    public World(List<Creature> all, List<Food> foods, Point size, int FPS, int ACCURACY) {
+    public World(List<Creature> all, List<Food> foods, Point size) {
 
         paint = new Paint(this, all, foods);
         this.all = all;
         this.foods = foods;
-        this.FPS = FPS;
-        this.ACCURACY = ACCURACY;
         this.size = size;
 
 
@@ -149,13 +147,6 @@ public class World extends JFrame {
 
         fields = new Field[size.x][size.y];// leeres Feld == null
         paint.setWorld(fields);// referenz der Welt zum zeichenen
-        int maxfoodperq = 0;
-        /*for (int ifq = 0; ifq < food_positions.length; ifq++) {// ifq -> idexFutterQuelle
-            if (foodperq[ifq] > maxfoodperq)
-                maxfoodperq = foodperq[ifq];
-            fields[food_positions[ifq].x][food_positions[ifq].y] = new Field(food_positions[ifq].x, food_positions[ifq].y, foodperq[ifq]);
-        }
-        paint.setMaxFood(maxfoodperq);*/
 
 
         startAnimation();
@@ -338,6 +329,9 @@ public class World extends JFrame {
     public int getYear() {
 
         return year;
+    }
+    public void setRunning(boolean b) {
+        this.running = b;
     }
 
     public void handleQueues() {

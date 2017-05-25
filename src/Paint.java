@@ -71,7 +71,7 @@ public class Paint extends JPanel {
 
                 if((!Toolkit.checkCiv(all)) || all.size() <= 0) {
                     g.drawString("YOUR CIVILISATION JUST DIED", 200, 200);
-                    world.running = false;
+                    world.setRunning(false);
                 }
 
 

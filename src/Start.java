@@ -15,12 +15,7 @@ import javax.swing.event.MouseInputListener;
 public class Start extends JFrame {
     public static ArrayList<Creature> all = new ArrayList<>();
     public static int SIGHT = 2;
-    public static int ID = 0;
-    public static int ENERGY = 1000;
-    public static int AMOUNT_CREATURES = 10;
-    public static int AMOUNT_FOOD = 10;
-    public static int FIELD_SIZE_START = 8;
-    public static int CREATURE_SIZE_START = 4;
+
 
     private static int FPS = 60;
     private static int ACCURACY = 16;
@@ -247,7 +242,7 @@ public class Start extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 System.out.println("Pushed");
-                int size_x, size_y, amount_creatures, amount_food;
+                int size_x, size_y;
                 try {
                     size_x = Integer.parseInt(x_textfield.getText());
                     size_y = Integer.parseInt(y_textfield.getText());
@@ -263,7 +258,7 @@ public class Start extends JFrame {
                         Point size = new Point(size_x, size_y); //nest = new Point(anzNestX, anzNestY);
                         //new World(all, FPS, ACCURACY, AMOUNT_FOOD, FIELD_SIZE_START, CREATURE_SIZE_START, size);
 
-                        new World(Toolkit.generate(size_x, size_y), Toolkit.generateFood(size_x, size_y), size, FPS, ACCURACY);
+                        new World(Toolkit.generate(size_x, size_y), Toolkit.generateFood(size_x, size_y), size);
                         //STOPS HERE !!!!
 
                                             }
@@ -330,32 +325,6 @@ public class Start extends JFrame {
                 p[i] = FOOD_PER_SOURCE;
         }
         return p;
-    }
-
-
-
-    public static float getSliderValueLin(int value, int stellen) {
-
-        return toNiceFloat(value / 1000f + 0.001f, stellen);
-    }
-
-    public static float getSliderValueExp(int value, int stellen) {
-        float f = (float) (value / 2000f + 0.95);
-        return toNiceFloat(f, stellen);
-
-    }
-
-    public static int getValueForSlider(float value, boolean isExp) {
-        if (isExp)
-            return (int) ((value - 0.95f) * 2000);
-        else
-            return (int) ((value - 0.001f) * 1000);
-    }
-
-    public static float toNiceFloat(float f, int stellen) {
-        int i = (int) Math.round(f * Math.pow(10, stellen));
-
-        return (float) (i / Math.pow(10, stellen));
     }
 
     public class FutterQPanel extends JPanel {

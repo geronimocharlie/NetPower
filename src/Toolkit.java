@@ -35,10 +35,10 @@ public class Toolkit {
         }
         else {
             if(creature.getSex() == 0) {
-                g.setColor(Color.BLUE);
+                g.setColor(Keys.getCreatureColors()[0]);
             }
             else if (creature.getSex() == 1) {
-                g.setColor(Color.MAGENTA);
+                g.setColor(Keys.getCreatureColors()[1]);
             }
 
         }
@@ -51,16 +51,16 @@ public class Toolkit {
         int dangerous = food.getDangerous();
 
         if(dangerous == 0) {
-            g.setColor(Color.GREEN);
+            g.setColor(Keys.getFoodColors()[0]);
         }
-        else if(dangerous == 1) {
+        /*else if(dangerous == 1) {
             g.setColor(Color.ORANGE);
         }
         else if(dangerous == 2) {
             g.setColor(Color.RED);
-        }
+        }*/
         else {
-            g.setColor(Color.BLACK);
+            g.setColor(Keys.getFoodColors()[1]);
         }
         g.fillRect((int) Math.round(x * scale), (int) Math.round(y * scale), (int) Math.round(food_size), (int) Math.round(food_size));
     }

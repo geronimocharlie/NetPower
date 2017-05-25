@@ -1,7 +1,11 @@
+import java.awt.*;
+
 /**
  * Created by Chrono on 25.05.2017.
  */
 public class Keys {
+    private static int FPS = 60;
+    private static int ACCURACY = 16;
     private static int AMOUNT_CREATURES = 100;
     private static int AMOUNT_FOOD = 10;
     private static int ENERGY_PER_FOOD = 100;
@@ -10,12 +14,16 @@ public class Keys {
     private static int CREATURE_SIZE = 10;
 
 
-    private static int MATURE = 700; //TIME TO BECOME MATURE AND ABLE TO REPRODUCE //BETWEEN 730 and 735 is decided whether it will die or overflow
+    private static int MATURE = 1000; //TIME TO BECOME MATURE AND ABLE TO REPRODUCE //BETWEEN 730 and 735 is decided whether it will die or overflow
     private static int PREGNANCY_INTERVAL = 1000; //IN WHICH INTERVAL WOMEN CAN GET PREGNANT
 
-    private static int DEAD_ENERGY = 100; //ENERGY NEEDED TO DIE
+    private static int DEAD_ENERGY = 200; //ENERGY NEEDED TO DIE
 
     private static int MOVE_ENERGY = 1; //STAY AT 1, EVERYTHING ABOVE KILLS
+
+    private static Color[] CREATURE_COLORS= new Color[]{dc("#0066ff"), dc("#cc0066")};
+
+    private static Color[] FOOD_COLORS = new Color[]{dc("#009933"), dc("#ff9900") };
 
 
     public static int getAmountCreatures() {
@@ -96,5 +104,41 @@ public class Keys {
 
     public static void setEnergyPerFood(int energyPerFood) {
         ENERGY_PER_FOOD = energyPerFood;
+    }
+
+    public static Color[] getCreatureColors() {
+        return CREATURE_COLORS;
+    }
+
+    public static void setCreatureColors(Color[] creatureColors) {
+        CREATURE_COLORS = creatureColors;
+    }
+
+    public static Color[] getFoodColors() {
+        return FOOD_COLORS;
+    }
+
+    public static void setFoodColors(Color[] foodColors) {
+        FOOD_COLORS = foodColors;
+    }
+
+    public static Color dc(String string) {
+        return Color.decode(string);
+    }
+
+    public static int getFPS() {
+        return FPS;
+    }
+
+    public static void setFPS(int FPS) {
+        Keys.FPS = FPS;
+    }
+
+    public static int getACCURACY() {
+        return ACCURACY;
+    }
+
+    public static void setACCURACY(int ACCURACY) {
+        Keys.ACCURACY = ACCURACY;
     }
 }
