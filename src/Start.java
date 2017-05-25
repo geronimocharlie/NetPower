@@ -28,13 +28,21 @@ public class Start extends JFrame {
     private JSlider fakt_slider;
     private JTextField x_textfield, y_textfield; //tf_nestX, tf_nestY;
     private JPanel adv_panel3;
+
+    private JTextField start_energy_textfield;
     private JTextField food_textfield;
-
-    private JTextField creatures_textfield;
-    private JPanel size_panel;
-
-    private JPanel creature_size_panel;
     private JTextField creature_size_textfield;
+    private JTextField creature_amount_textfield;
+    private JTextField sight_textfield;
+    private JTextField move_energy_textfield;
+    private JTextField pregnancy_interval_textfield;
+    private JTextField mature_textfield;
+    private JTextField max_danger_level_tetfield;
+
+    private JPanel size_panel;
+    private JPanel creature_size_panel;
+
+
 
     private boolean advSettingsShown = false;
     private ArrayList<FutterQPanel> list_fq = new ArrayList<>(5);
@@ -101,24 +109,43 @@ public class Start extends JFrame {
         JPanel p_basic = new JPanel();
         setLayout(new BorderLayout());
 
-        GridLayout gl = new GridLayout(4, 2, 20, 20);
+        GridLayout gl = new GridLayout(12,8, 20, 20);
         p_basic.setLayout(gl);
 
-        JLabel SIZE_LABEL = new JLabel("Größe des Feldes: ");
-        JLabel AMOUNT_CREATURES_LABEL = new JLabel("Anzahl der Lebewesen: ");
-        JLabel AMOUNT_FOOD_LABEL = new JLabel("Anzahl der Futterquellen: ");
-        JLabel SIZE_CREATURES = new JLabel("Größe der Lebewesen: ");
+        JLabel SIZE_LABEL = new JLabel("Size of the field: ");
+        JLabel START_ENERGY_LABEL = new JLabel("Start energy:");
+        JLabel AMOUNT_CREATURES_LABEL = new JLabel("Amount of creatures: ");
+        JLabel AMOUNT_FOOD_LABEL = new JLabel("Amount of food sources: ");
+        JLabel SIGHT_LABEL = new JLabel("Sight:");
+        JLabel SIZE_CREATURES_LABEL = new JLabel("Size of the creatures: ");
+        JLabel MATURE_LABEL = new JLabel("Mature:");
+        JLabel PREGNANCY_INTERVAL_LABEL = new JLabel("Pregnancy interval:");
+        JLabel MOVE_ENERGY_LABEL = new JLabel("Move energy:");
+        JLabel MAX_DANGER_LEVEL_LABEL = new JLabel("Max danger level:");
 
         EmptyBorder border = new EmptyBorder(20, 10, 20, 20);
         SIZE_LABEL.setBorder(border);
+        START_ENERGY_LABEL.setBorder(border);
         AMOUNT_CREATURES_LABEL.setBorder(border);
         AMOUNT_FOOD_LABEL.setBorder(border);
-        SIZE_CREATURES.setBorder(border);
+        SIZE_CREATURES_LABEL.setBorder(border);
+        SIGHT_LABEL.setBorder(border);
+        MATURE_LABEL.setBorder(border);
+        PREGNANCY_INTERVAL_LABEL.setBorder(border);
+        MOVE_ENERGY_LABEL.setBorder(border);
+        MAX_DANGER_LEVEL_LABEL.setBorder(border);
 
         size_panel = new JPanel();
-        creatures_textfield = new JTextField("100");
+
+        start_energy_textfield = new JTextField("50");
+        sight_textfield = new JTextField("2");
         food_textfield = new JTextField("5");
         creature_size_textfield = new JTextField("5");
+        creature_amount_textfield = new JTextField("101");
+        mature_textfield = new JTextField("10");
+        move_energy_textfield = new JTextField("1");
+        max_danger_level_tetfield = new JTextField("5");
+
 
 
         JLabel l_groesseP = new JLabel(" * ");
@@ -179,11 +206,19 @@ public class Start extends JFrame {
 
         p_basic.add(SIZE_LABEL);
         p_basic.add(size_panel);
+        p_basic.add(SIGHT_LABEL);
+        p_basic.add(sight_textfield);
         p_basic.add(AMOUNT_CREATURES_LABEL);
-        p_basic.add(creatures_textfield);
+        p_basic.add(creature_amount_textfield);
+        p_basic.add(MATURE_LABEL);
+        p_basic.add(mature_textfield);
+        p_basic.add(MOVE_ENERGY_LABEL);
+        p_basic.add(move_energy_textfield);
+        p_basic.add(MAX_DANGER_LEVEL_LABEL);
+        p_basic.add(max_danger_level_tetfield);
         p_basic.add(AMOUNT_FOOD_LABEL);
         p_basic.add(food_textfield);
-        p_basic.add(SIZE_CREATURES);
+        p_basic.add(SIZE_CREATURES_LABEL);
         p_basic.add(creature_size_textfield);
         p_basic.add(more_label);
         p_basic.add(l_emty);
@@ -194,14 +229,14 @@ public class Start extends JFrame {
         adv_panel.setLayout(new BorderLayout(20, 20));
         adv_panel.setBorder(border);
 
-        JPanel p_adv_1 = new JPanel();
+        /*JPanel p_adv_1 = new JPanel();
         p_adv_1.setLayout(new GridLayout(3, 3, 20, 20));
-        p_adv_1.add(SIZE_CREATURES);
+        p_adv_1.add(SIZE_CREATURES_LABEL);
         p_adv_1.add(creature_size_textfield);
 
         JPanel p_adv_2 = new JPanel();
         p_adv_2.setLayout(new GridLayout(0, 1, 20, 20));
-        p_adv_2.add(creature_size_textfield);
+        p_adv_2.add(creature_size_textfield);*/
 
         JPanel p_customQ = new JPanel();
         p_customQ.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
@@ -246,7 +281,7 @@ public class Start extends JFrame {
                 try {
                     size_x = Integer.parseInt(x_textfield.getText());
                     size_y = Integer.parseInt(y_textfield.getText());
-                    Keys.setAmountCreatures(Integer.parseInt(creatures_textfield.getText()));
+                    Keys.setAmountCreatures(Integer.parseInt(creature_amount_textfield.getText()));
                     Keys.setAmountFood(Integer.parseInt(food_textfield.getText()));
 
                     if (size_x <= 0 || size_y <= 0 || Keys.getAmountCreatures() <= 0 || Keys.getAmountFood() < 0 )
@@ -275,11 +310,11 @@ public class Start extends JFrame {
 
 
 
-        p_adv_2.add(p_customQ);
+        //p_adv_2.add(p_customQ);
         // p_adv_2.add(new JSeparator());
 
-        adv_panel.add(p_adv_1, BorderLayout.NORTH);
-        adv_panel.add(p_adv_2, BorderLayout.CENTER);
+        //adv_panel.add(p_adv_1, BorderLayout.NORTH);
+        //adv_panel.add(p_adv_2, BorderLayout.CENTER);
         adv_panel.add(adv_panel3, BorderLayout.SOUTH);
 
         // FutterQ: x,y,anzFutter
