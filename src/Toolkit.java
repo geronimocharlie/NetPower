@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -194,23 +195,29 @@ public class Toolkit {
         int tempx, tempy;
         for(int i = 0; i < size; i++) {
             for(int u = 0; u < size; u++) {
-                currentPos[0] = position[0] - u - creature.getSight();
-                currentPos[1] = position[1] - i - creature.getSight();
+                currentPos[0] = position[0] + (u - creature.getSight());
+                currentPos[1] = position[1] + (i - creature.getSight());
 
-                synchronized (all) {
+
                     for (Creature creature1 : all) {
-                        if (creature1.getPosition() == currentPos) {
-                            surround[u][i] = 1;
+                        int[] position2 = creature1.getPosition();
+                        if (Arrays.equals(creature1.getPosition(), currentPos)) {
+                            if(creature1.getId() == creature.getId()) {
+                                surround[u][i] = -1;
+                            }
+                            else {
+                                surround[u][i] = 1;
+                            }
+
                         }
                     }
-                }
-                synchronized (foods) {
+
                     for (Food food : foods) {
-                        if (food.getPosition() == currentPos) {
+                        if (Arrays.equals(food.getPosition(), currentPos)) {
                             surround[u][i] = 2;
                         }
                     }
-                }
+
                 System.out.println("");
             }
         }
