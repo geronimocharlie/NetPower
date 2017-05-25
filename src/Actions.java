@@ -50,8 +50,9 @@ public class Actions {
     public static void grab(Creature creature) {
 
     }
-    public static void eat(Creature creature) {
-
+    public static void eat(Creature creature, Food food) {
+        creature.setEnergy(creature.getEnergy() + food.getAmount());
+        world.eatFood(food);
     }
     static void reproduce(Creature mother, java.util.List<Creature> all) {
         int id = Toolkit.getID(all);

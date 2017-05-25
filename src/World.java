@@ -302,6 +302,13 @@ public class World extends JFrame {
                     creature.setPregnant(false);
                 }
 
+                synchronized (foods) {
+                    for(Food food : foods) {
+                        if(Toolkit.isNextTo(creature, food)) {
+                            Actions.eat(creature, food);
+                        }
+                    }
+                }
 
 
             }
@@ -328,6 +335,11 @@ public class World extends JFrame {
             baby_queue.add(creature);
         }
     }
+    public void eatFood(Food food) {
+        synchronized (eat_queue) {
+            eat_queue.add(food);
+        }
+    }
     public int getYear() {
 
         return year;
@@ -350,6 +362,12 @@ public class World extends JFrame {
                 all.add(creature);
             }
             baby_queue.clear();
+        }
+        synchronized (eat_queue) {
+            for(Food food : eat_queue) {
+                foods.remove(food);
+            }
+            eat_queue.clear();
         }
 
     }
