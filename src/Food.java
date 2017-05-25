@@ -6,7 +6,53 @@ public class Food {
     private int amount;
     private int dangerous; //0 - not dangerous, 1 - spikes, 2 - poison, 3 - radioactive ?
     private int[] position;
+    private int size;
 
 
+    public Food(int f_id, int amount, int dangerous, int[] position) {
+        this.f_id = f_id;
+        this.amount = amount;
+        this.dangerous = dangerous;
+        this.position = position;
+    }
 
+    public int getF_id() {
+        return f_id;
+    }
+
+    public void setF_id(int f_id) {
+        this.f_id = f_id;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getDangerous() {
+        return dangerous;
+    }
+
+    public void setDangerous(int dangerous) {
+        this.dangerous = dangerous;
+    }
+
+    public int[] getPosition() {
+        return position;
+    }
+
+    public void setPosition(int[] position) {
+        this.position = position;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 }

@@ -12,6 +12,8 @@ public class Creature {
     public static float SIZE_START;
     private boolean crisis = false;
     private boolean dead = false;
+    private boolean pregnant = false;
+    private int pregnancy_year = 0;
 
     public Creature(int id, float energy, int[] position, int sight, int sex, float SIZE_START) {
         this.id = id;
@@ -68,5 +70,20 @@ public class Creature {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public void setPregnant(boolean b) {
+        pregnant = b;
+    }
+    public boolean isPregnant() {
+        return pregnant;
+    }
+
+    public int getPregnancyYear() {
+        return pregnancy_year;
+    }
+
+    public void setPregnancyYear(int pregnancy_year) {
+        this.pregnancy_year = pregnancy_year;
     }
 }

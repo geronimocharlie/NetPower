@@ -211,6 +211,9 @@ public class Start extends JFrame {
         JPanel p_customQ = new JPanel();
         p_customQ.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
 
+        JPanel p_adv = new JPanel();
+        p_adv.setLayout(new GridLayout(0, 2, 40, 40));
+
         JLabel l_customQ = new JLabel("Feste Nahrung hinzufügen: ");
         JLabel l_customInfo = new JLabel("Alle Nahrungsquellen die nicht näher spezifiziert werden werden zufällig verteilt");
         l_customInfo.setFont(new Font("arial", Font.ITALIC, 10));
@@ -248,10 +251,10 @@ public class Start extends JFrame {
                 try {
                     size_x = Integer.parseInt(x_textfield.getText());
                     size_y = Integer.parseInt(y_textfield.getText());
-                    AMOUNT_CREATURES = Integer.parseInt(creatures_textfield.getText());
-                    amount_food = Integer.parseInt(food_textfield.getText());
+                    Keys.setAmountCreatures(Integer.parseInt(creatures_textfield.getText()));
+                    Keys.setAmountFood(Integer.parseInt(food_textfield.getText()));
 
-                    if (size_x <= 0 || size_y <= 0 || AMOUNT_CREATURES <= 0 || amount_food < 0 )
+                    if (size_x <= 0 || size_y <= 0 || Keys.getAmountCreatures() <= 0 || Keys.getAmountFood() < 0 )
                         JOptionPane.showMessageDialog(Start.this, "Bitte Zahlen > 0 eingeben.", "Falsche Eingabe", JOptionPane.ERROR_MESSAGE);
                     else {
                         System.out.println("okay");
@@ -259,8 +262,8 @@ public class Start extends JFrame {
 
                         Point size = new Point(size_x, size_y); //nest = new Point(anzNestX, anzNestY);
                         //new World(all, FPS, ACCURACY, AMOUNT_FOOD, FIELD_SIZE_START, CREATURE_SIZE_START, size);
-                        Point[] food_points = Toolkit.generateFood(size, "10");
-                        new World(Toolkit.generate(AMOUNT_CREATURES, ENERGY, SIGHT, size_x, size_y), food_points, Toolkit.foodPerSource(food_points.length, FOOD_PER_SOURCE), size, FPS, ACCURACY);
+
+                        new World(Toolkit.generate(size_x, size_y), Toolkit.generateFood(size_x, size_y), size, FPS, ACCURACY);
                         //STOPS HERE !!!!
 
                                             }
@@ -273,9 +276,8 @@ public class Start extends JFrame {
             }
         });
 
-        p_customQ.add(l_customQ);
-        p_customQ.add(btn_customAdd);
-        p_customQ.add(l_customInfo);
+
+
 
 
         p_adv_2.add(p_customQ);

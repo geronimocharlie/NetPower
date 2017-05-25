@@ -14,32 +14,37 @@ import java.util.List;
  * Created by Chrono on 19.05.2017.
  */
 public class World extends JFrame {
-    private int ticks_ps = 500;
-    private boolean running = true;
+    public int ticks_ps = 500;
+    public boolean running = true;
+    private int year = 0;
     private List<Creature> all;
-    private List<Creature> grimReaperQueue = new ArrayList<>();
+    private List<Food> foods;
+    private List<Creature> reaper_queue = new ArrayList<>();
+    private List<Creature> baby_queue = new ArrayList<>();
+    private List<Food> eat_queue = new ArrayList<>();
+    private List<Food> spawn_queue = new ArrayList<>();
     public static int FPS;
     public static int ACCURACY;
-    public int AMOUNT_FOOD;
+
     private int steps = 0;
     private Field[][] fields;
-    public static Point[] food_positions;
-    public static int[] foodperq;
-    public static float FIELD_SIZE_START;
-    public static float CREATURE_SIZE_START;
+
+
     Actions actions;
     Point size;
     Paint paint;
+    Creature lastDead;
+    int dead_counter;
 
-    public World(List<Creature> all, Point[] food_positions, int[] foodperq, Point size, int FPS, int ACCURACY) {
+    public World(List<Creature> all, List<Food> foods, Point size, int FPS, int ACCURACY) {
 
-        paint = new Paint(this, all);
+        paint = new Paint(this, all, foods);
         this.all = all;
+        this.foods = foods;
         this.FPS = FPS;
         this.ACCURACY = ACCURACY;
         this.size = size;
-        this.food_positions = food_positions;
-        this.foodperq = foodperq;
+
 
         generateFrame();
 
@@ -250,80 +255,107 @@ public class World extends JFrame {
                 creature.size = (float) Math.max(creature.size, scale);
             }
         }
+        synchronized (foods) {
+            for (Food food : foods) {
+                food.setSize((int) Math.max(food.getSize(), scale));
+            }
+        }
 
         Field.size = (float) Math.max(Field.SIZE_START, scale);
     }
 
     private void nextTick() throws InterruptedException {
-        // Ameisen bewegen
+
         synchronized (all) {
             for (Creature creature : all) {
-                //Random random = new Random();
-                //boolean move = random.nextBoolean();
+
                 double moveratio = (double) (Math.random() * creature.getAge() / 100);
 
-                //if(creature.getEnergy() > 10) {
                 if (moveratio < 5) {
-                    actions.move(all, creature, size.x, size.y);
+                    actions.move(creature, size.x, size.y);
                 } else {
                     actions.idle();
                 }
-                //}
-                //else {
-                //    actions.die(creature);
-                //}
 
                 creature.setAge(creature.getAge() + 1);
+                year++;
 
-                for (Creature creature1 : all) {
+
                     for (Creature creature2 : all) {
-                        if (Toolkit.isNextTo(creature1, creature2)) {
-                            if (creature1.getSex() != creature2.getSex()) {
-                                if (creature1.getAge() > 1000 && creature2.getAge() > 1000) {
+                        if (Toolkit.isNextTo(creature, creature2)) {
+                            if (creature.getSex() != creature2.getSex()) {
+                                if (creature.getAge() > Keys.getMATURE() && creature2.getAge() > Keys.getMATURE()) {
                                     Creature mother = null;
-                                    if (creature1.getSex() == 1) {
-                                        mother = creature1;
+                                    if (creature.getSex() == 1) {
+                                        mother = creature;
                                     } else if (creature2.getSex() == 1) {
                                         mother = creature2;
                                     }
-                                    actions.reproduce(mother, all);
+
+                                    if(!mother.isPregnant()) {
+                                        actions.reproduce(mother, all);
+                                        mother.setPregnant(true);
+                                    }
+
+
                                 }
                             }
 
                         }
                     }
+
+                if(creature.getEnergy() < 5) {
+                        Actions.die(creature);
                 }
-            }
-            synchronized (grimReaperQueue) {
-                for (Creature dyingCreature : grimReaperQueue) {
-                    all.remove(dyingCreature);
-                    System.out.println("killed " + dyingCreature);
+                else if((creature.getPregnancyYear() + Keys.getPregnancyInterval() <= year) && creature.isPregnant()) {
+                    creature.setPregnant(false);
                 }
-                grimReaperQueue.clear();
+
             }
+            handleQueues();
         }
 
 
 
     }
     public int getDead() {
-        int i = 0;
-        synchronized (all) {
-            for(Creature creature : all) {
-                if(creature.isDead()) i++;
+        return dead_counter;
+    }
+    public Creature getLastDead() {
+        return lastDead;
+    }
+
+    public void removeCreature(Creature creature) {
+        synchronized (reaper_queue) {
+            reaper_queue.add(creature);
+        }
+    }
+    public void addCreature(Creature creature) {
+        synchronized (baby_queue) {
+            baby_queue.add(creature);
+        }
+    }
+    public int getYear() {
+
+        return year;
+    }
+
+    public void handleQueues() {
+        synchronized (reaper_queue) {
+            for (Creature creature : reaper_queue) {
+                all.remove(creature);
+                lastDead = creature;
+                dead_counter++;
             }
+            reaper_queue.clear();
         }
-        return i;
-    }
-
-    public void setAll(ArrayList<Creature> all) {
-        this.all = all;
-    }
-
-    public void killLater(Creature c) {
-        synchronized (grimReaperQueue) {
-            grimReaperQueue.add(c);
+        synchronized (baby_queue) {
+            for(Creature creature : baby_queue) {
+                all.add(creature);
+            }
+            baby_queue.clear();
         }
+
     }
 }
 

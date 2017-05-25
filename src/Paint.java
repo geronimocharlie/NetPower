@@ -16,8 +16,9 @@ public class Paint extends JPanel {
     private int maxFood = 0;
     private int[] food_positions;
     private List<Creature> all;
+    private List<Food> foods;
     private long last = System.currentTimeMillis(), latest;
-    private int lastdead = -1;
+
     int fps = 0, tps = 0;
     int i = 0;
     int lastSteps = 0, steps;
@@ -25,14 +26,15 @@ public class Paint extends JPanel {
     boolean[] deads;
 
 
-    public Paint(World world, java.util.List<Creature> all) {
+    public Paint(World world, java.util.List<Creature> all, java.util.List<Food> foods) {
         super();
         this.world = world;
         this.all = all;
+        this.foods = foods;
         setBackground(Color.WHITE);
         deads = new boolean[all.size()];
     }
-    public void resize(ArrayList<Creature> all) {
+    public void resize(List<Creature> all) {
         this.all = all;
         deads = new boolean[all.size()];
     }
@@ -53,33 +55,38 @@ public class Paint extends JPanel {
         i++;
         g.drawString("FPS: " + fps, 20, 20);
         g.drawString("Steps per sec: " + tps, 100, 20);
-        for (int x = 0; x < fields.length; x++) {
-            for (int y = 0; y < fields[x].length; y++) {
-                  if (fields[x][y] != null) {
-                      fields[x][y].draw(g, scale, maxFood);
-                      Toolkit.drawFields(g, scale, maxFood, world.AMOUNT_FOOD, x, y);
-                  }
-            }
-        }
-        for(int i = 0; i < all.size(); i++) {
-            if(deads[i] != all.get(i).isDead()) {
-                lastdead = all.get(i).getId();
+        g.drawString("Current year: " + world.getYear() / 100, 300, 20);
 
-            }
-            deads[i] = all.get(i).isDead();
-            System.out.print("");
+        g.drawString("Current amount of Creatures: " + all.size(), 400, 50);
 
-        }
-        if(lastdead != -1) {
-            g.drawString("Creature " + lastdead + " died!", 20, 50);
+
+        if(world.getLastDead() != null) {
+            g.drawString("Creature " + world.getLastDead().getId() + " died!", 20, 50);
         }
 
         g.drawString("Dead Creatures: " + world.getDead(), 200, 50);
         synchronized (all) {
             for (Creature creature : all) {
+
+
+                if((!Toolkit.checkCiv(all)) || all.size() <= 0) {
+                    g.drawString("YOUR CIVILISATION JUST DIED", 200, 200);
+                    world.running = false;
+                }
+
+
+
                 Toolkit.drawCreature(g, creature, scale, creature.size, creature.getPosition()[0], creature.getPosition()[1]);
             }
+
+
         }
+        synchronized (foods) {
+            for(Food food : foods) {
+                Toolkit.drawFood(g, food, scale, food.getPosition()[0], food.getPosition()[1]);
+            }
+        }
+
         
     }
 

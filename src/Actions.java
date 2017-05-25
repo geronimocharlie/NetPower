@@ -20,7 +20,7 @@ public class Actions {
         this.paint = paint;
         this.world = world;
     }
-    public static void move(List<Creature> all, Creature creature, int size_x, int size_y ) throws InterruptedException {
+    public static void move(Creature creature, int size_x, int size_y ) throws InterruptedException {
         if(creature.isDead() != true) {
             ArrayList<int[]> moves = new ArrayList<int[]>();
             moves.add(new int[]{1, 0});
@@ -34,10 +34,10 @@ public class Actions {
             int x = currentPos[0] + newPos[0];
             int y = currentPos[1] + newPos[1];
             if (x > size_x || y > size_y) {
-                die(all, creature);
+                die(creature);
             } else {
                 creature.setPosition(new int[]{x, y});
-                creature.setEnergy(creature.getEnergy() - 1);
+                creature.setEnergy(creature.getEnergy() - Keys.getMoveEnergy());
             }
         }
         else {
@@ -51,24 +51,21 @@ public class Actions {
     public static void eat(Creature creature) {
 
     }
-    public static void reproduce(Creature creature, java.util.List<Creature> all) {
+    public static void reproduce(Creature mother, java.util.List<Creature> all) {
         int id = Toolkit.getID(all);
-        Creature baby = new Creature(id, 50, creature.getPosition(), 2, Toolkit.generateSex(), creature.getSize());
-        all.add(baby);
+        Creature baby = new Creature(id, Keys.getENERGY(), mother.getPosition(), Keys.getSIGHT(), Toolkit.generateSex(), mother.getSize());
+        world.addCreature(baby);
+
+
+        mother.setPregnancyYear(world.getYear());
 
 
 
     }
-    /*public static void die(Creature creature, ArrayList<Creature> all) {
-        for(Creature cr : all) {
-            if(creature.getId() == cr.getId()) {
-                all.remove(cr);
-            }
-        }
-    }*/
-    public static void die(List<Creature> all, Creature creature) throws InterruptedException {
+
+    public static void die(Creature creature) throws InterruptedException {
         creature.setDead(true);
-        world.killLater(creature);
+        world.removeCreature(creature);
     }
 
     public static void idle() {

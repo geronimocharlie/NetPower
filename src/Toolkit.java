@@ -43,48 +43,63 @@ public class Toolkit {
 
         }
 
-
         g.fillOval((int) Math.round(x * scale), (int) Math.round(y * scale), (int) Math.round(creature_size), (int) Math.round(creature_size));
 
     }
+    public static void drawFood(Graphics g, Food food, double scale, int x, int y) {
+        int food_size = food.getSize();
+        int dangerous = food.getDangerous();
 
-    public static List<Creature> generate(int AMOUNT_CREATURES, int ENERGY, int SIGHT, int size_x, int size_y) {
+        if(dangerous == 0) {
+            g.setColor(Color.GREEN);
+        }
+        else if(dangerous == 1) {
+            g.setColor(Color.ORANGE);
+        }
+        else if(dangerous == 2) {
+            g.setColor(Color.RED);
+        }
+        else {
+            g.setColor(Color.BLACK);
+        }
+        g.fillRect((int) Math.round(x * scale), (int) Math.round(y * scale), (int) Math.round(food_size), (int) Math.round(food_size));
+    }
+
+    public static List<Creature> generate(int size_x, int size_y) {
         progress("Generate Creatures");
         List<Creature> all = Collections.synchronizedList(new ArrayList<Creature>());
 
 
-        for(int i = 0; i < AMOUNT_CREATURES; i++) {
+        for(int i = 0; i < Keys.getAmountCreatures(); i++) {
             int ID = i;
             int[] position = new int[]{randomPos(size_x),randomPos(size_y)};
             int sex = generateSex();
-            float size = (float) (Math.random() * 9) + 7;
-            Creature creature = new Creature(ID, ENERGY, position, SIGHT, sex, size);
-            System.out.println("\t" + creature.getId() + ". " + "ENERGY: " + creature.getEnergy() + " - SIGHT: " + SIGHT + " - SEX: " + creature.getSex() + " - SIZE: " + creature.size);
+
+            Creature creature = new Creature(ID, Keys.getENERGY(), position, Keys.getSIGHT(), sex, Keys.getCreatureSize());
+            System.out.println("\t" + creature.getId() + ". " + "ENERGY: " + creature.getEnergy() + " - SIGHT: " + Keys.getSIGHT() + " - SEX: " + creature.getSex() + " - SIZE: " + creature.size);
             all.add(creature);
         }
         progress("Finished");
         return all;
     }
 
-    public static Point[] generateFood(Point size, String str_amount) throws NumberFormatException {
+    public static List<Food> generateFood(int size_x, int size_y) throws NumberFormatException {
         progress("Generate Food");
-        int amount = Integer.parseInt(str_amount);
-        Point[] p = new Point[amount];
-        for (int i = 0; i < amount; i++) {
-            p[i] = new Point(randomPos(size.x), randomPos(size.y));
+        List<Food> foods = Collections.synchronizedList(new ArrayList<Food>());
+        for(int i = 0; i < Keys.getAmountFood(); i++) {
+            int f_id = i;
+            int[] position = new int[]{randomPos(size_x),randomPos(size_y)};
+            //int dangerous = generateSex();
+
+            Food food = new Food(f_id, Keys.getEnergyPerFood(), generateDanger(),  position);
+
+            foods.add(food);
         }
 
         progress("Finished");
-        return p;
+        return foods;
     }
-    public static int[] foodPerSource(int amount, int FOOD_PER_SOURCE) {
 
-        int[] p = new int[amount];
-        for (int i = 0; i < amount; i++) {
-            p[i] = FOOD_PER_SOURCE;
-        }
-        return p;
-    }
 
     public static int randomPos(int max) {//, int notAllowed) {
 
@@ -99,6 +114,23 @@ public class Toolkit {
         boolean b;
         int[] position1 = cr1.getPosition();
         int[] position2 = cr2.getPosition();
+
+        int p1x = position1[0]; int p1y = position1[1];
+
+        int p2x = position2[0]; int p2y = position2[1];
+
+        if((p1x - p2x == 1 && p1y == p2y)||( p1x - p2x == -1 && p1y == p2y)) b = true;
+        else if ((p1y - p2y == 1 && p1x == p2x)||( p1y - p2y == -1 && p1x == p2x)) {
+            b = true;
+        }
+        else b = false;
+
+        return b;
+    }
+    public static boolean isNextTo(Creature creature, Food food) {
+        boolean b;
+        int[] position1 = creature.getPosition();
+        int[] position2 = food.getPosition();
 
         int p1x = position1[0]; int p1y = position1[1];
 
@@ -172,5 +204,33 @@ public class Toolkit {
         int sex = (int)(Math.random() * 2);
         return sex;
     }
+    public static int generateDanger() {
+        int danger = (int) (Math.random() * 2);
+        return danger;
+    }
+
+    public static boolean checkCiv(List<Creature> all) {
+        boolean male = false;
+        boolean female = false;
+        synchronized (all) {
+            for (Creature creature : all) {
+                if(creature.getSex() == 0) {
+                    male = true;
+                }
+                else {
+                    female = true;
+                }
+            }
+            if(!(male && female))  {
+                return false;
+            }
+            else {
+                return true;
+            }
+
+        }
+    }
+
+
 
 }
