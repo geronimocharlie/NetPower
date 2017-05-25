@@ -39,7 +39,12 @@ public class Toolkit {
                 g.setColor(Keys.getCreatureColors()[0]);
             }
             else if (creature.getSex() == 1) {
-                g.setColor(Keys.getCreatureColors()[1]);
+                if(creature.isPregnant()) {
+                    g.setColor(Color.magenta);
+                }
+                else {
+                    g.setColor(Keys.getCreatureColors()[1]);
+                }
             }
 
         }

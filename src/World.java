@@ -284,7 +284,6 @@ public class World extends JFrame {
                                     }
 
                                     if(!mother.isPregnant()) {
-                                        actions.reproduce(mother, all);
                                         mother.setPregnant(true);
                                     }
 
@@ -299,6 +298,7 @@ public class World extends JFrame {
                         Actions.die(creature);
                 }
                 else if((creature.getPregnancyYear() + Keys.getPregnancyInterval() <= year) && creature.isPregnant()) {
+                    actions.reproduce(creature, all);
                     creature.setPregnant(false);
                 }
 
