@@ -116,40 +116,7 @@ public class Toolkit {
         return x;
     }
 
-    public static boolean isNextTo(Creature cr1, Creature cr2) {
-        boolean b;
-        int[] position1 = cr1.getPosition();
-        int[] position2 = cr2.getPosition();
 
-        int p1x = position1[0]; int p1y = position1[1];
-
-        int p2x = position2[0]; int p2y = position2[1];
-
-        if((p1x - p2x == 1 && p1y == p2y)||( p1x - p2x == -1 && p1y == p2y)) b = true;
-        else if ((p1y - p2y == 1 && p1x == p2x)||( p1y - p2y == -1 && p1x == p2x)) {
-            b = true;
-        }
-        else b = false;
-
-        return b;
-    }
-    public static boolean isNextTo(Creature creature, Food food) {
-        boolean b;
-        int[] position1 = creature.getPosition();
-        int[] position2 = food.getPosition();
-
-        int p1x = position1[0]; int p1y = position1[1];
-
-        int p2x = position2[0]; int p2y = position2[1];
-
-        if((p1x - p2x == 1 && p1y == p2y)||( p1x - p2x == -1 && p1y == p2y)) b = true;
-        else if ((p1y - p2y == 1 && p1x == p2x)||( p1y - p2y == -1 && p1x == p2x)) {
-            b = true;
-        }
-        else b = false;
-
-        return b;
-    }
 
     // return a random m-by-n matrix with values between 0 and 1
     // use to fill matrix with random weights

@@ -25,6 +25,8 @@ public class Keys {
 
     private static Color[] FOOD_COLORS = new Color[]{dc("#009933"), dc("#ff9900") };
 
+    private static int MAX_DANGER = 5;
+
 
     public static int getAmountCreatures() {
         return AMOUNT_CREATURES;
@@ -138,5 +140,13 @@ public class Keys {
 
     public static void setACCURACY(int ACCURACY) {
         Keys.ACCURACY = ACCURACY;
+    }
+
+    public static int getMaxDanger() {
+        return MAX_DANGER;
+    }
+
+    public static void setMaxDanger(int maxDanger) {
+        MAX_DANGER = maxDanger;
     }
 }

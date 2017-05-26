@@ -262,8 +262,8 @@ public class World extends JFrame {
 
                 double moveratio = (double) (Math.random() * creature.getAge() / 100);
 
-                if (moveratio < 5) {
-                    actions.move(creature, size.x, size.y);
+                if (moveratio < 5 ) {
+                    actions.move(creature, all, size.x, size.y);
                 } else {
                     actions.idle();
                 }
@@ -273,7 +273,7 @@ public class World extends JFrame {
                 int[][] surround = Toolkit.surroundings(creature, all, foods);
                 System.out.print("");
                     for (Creature creature2 : all) {
-                        if (Toolkit.isNextTo(creature, creature2)) {
+                        if (creature.isNextTo(creature2)) {
                             if (creature.getSex() != creature2.getSex()) {
                                 if (creature.getAge() > Keys.getMATURE() && creature2.getAge() > Keys.getMATURE()) {
                                     Creature mother = null;
@@ -304,7 +304,8 @@ public class World extends JFrame {
 
                 synchronized (foods) {
                     for(Food food : foods) {
-                        if(Toolkit.isNextTo(creature, food)) {
+                        if(creature.isNextTo(food)) {
+                            if(creature.getEnergy() < (Keys.getENERGY() / 2))
                             Actions.eat(creature, food);
                         }
                     }

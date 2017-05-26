@@ -94,4 +94,40 @@ public class Creature {
     public void setSight(int sight) {
         this.sight = sight;
     }
+
+    public boolean isNextTo(Creature cr2) {
+        boolean b;
+        int[] position1 = this.getPosition();
+        int[] position2 = cr2.getPosition();
+
+        int p1x = position1[0]; int p1y = position1[1];
+
+        int p2x = position2[0]; int p2y = position2[1];
+
+        if((p1x - p2x == 1 && p1y == p2y)||( p1x - p2x == -1 && p1y == p2y)) b = true;
+        else if ((p1y - p2y == 1 && p1x == p2x)||( p1y - p2y == -1 && p1x == p2x)) {
+            b = true;
+        }
+        else b = false;
+
+        return b;
+    }
+    public boolean isNextTo(Food food) {
+        boolean b;
+        int[] position1 = this.getPosition();
+        int[] position2 = food.getPosition();
+
+        int p1x = position1[0]; int p1y = position1[1];
+
+        int p2x = position2[0]; int p2y = position2[1];
+
+        if((p1x - p2x == 1 && p1y == p2y)||( p1x - p2x == -1 && p1y == p2y)) b = true;
+        else if ((p1y - p2y == 1 && p1x == p2x)||( p1y - p2y == -1 && p1x == p2x)) {
+            b = true;
+        }
+        else b = false;
+
+        return b;
+    }
 }
+

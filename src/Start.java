@@ -137,14 +137,14 @@ public class Start extends JFrame {
 
         size_panel = new JPanel();
 
-        start_energy_textfield = new JTextField("50");
-        sight_textfield = new JTextField("2");
-        food_textfield = new JTextField("5");
-        creature_size_textfield = new JTextField("5");
-        creature_amount_textfield = new JTextField("101");
-        mature_textfield = new JTextField("10");
-        move_energy_textfield = new JTextField("1");
-        max_danger_level_tetfield = new JTextField("5");
+        start_energy_textfield = new JTextField(Keys.getENERGY() + "");
+        sight_textfield = new JTextField(Keys.getSIGHT() + "");
+        food_textfield = new JTextField(Keys.getAmountFood() + "");
+        creature_size_textfield = new JTextField(Keys.getCreatureSize() + "");
+        creature_amount_textfield = new JTextField(Keys.getAmountCreatures() + "");
+        mature_textfield = new JTextField(Keys.getMATURE() + "");
+        move_energy_textfield = new JTextField(Keys.getMoveEnergy() + "");
+        max_danger_level_tetfield = new JTextField(Keys.getMaxDanger() + "");
 
 
 

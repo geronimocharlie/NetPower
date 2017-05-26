@@ -17,7 +17,7 @@ public class Actions {
         Actions.paint = paint;
         Actions.world = world;
     }
-    static void move(Creature creature, int size_x, int size_y) throws InterruptedException {
+    static void move(Creature creature, List<Creature> all, int size_x, int size_y) throws InterruptedException {
 
         if(!creature.isDead()) {
             ArrayList<int[]> moves = new ArrayList<int[]>();
@@ -38,8 +38,20 @@ public class Actions {
                     creature.setEnergy(creature.getEnergy() - Keys.getMoveEnergy() * 2);
                 }
                 else {
-                    creature.setPosition(new int[]{x, y});
+
+                        for(Creature creature1 : all) {
+                            if(Arrays.equals(creature1.getPosition(), new int[]{x, y})) {
+
+                            }
+                            else {
+                                creature.setPosition(new int[]{x, y});
+                            }
+
+
+                        }
+
                     creature.setEnergy(creature.getEnergy() - Keys.getMoveEnergy());
+
                 }
 
             }
@@ -74,4 +86,6 @@ public class Actions {
     static void idle() {
 
     }
+
+
 }
