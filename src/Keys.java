@@ -38,9 +38,7 @@ public class Keys {
         return AMOUNT_FOOD;
     }
 
-    public static void setAmountFood(int amountFood) {
-        AMOUNT_FOOD = amountFood;
-    }
+    public static void setAmountFood(int amountFood) {AMOUNT_FOOD = amountFood;}
 
     public static int getSIGHT() {
         return SIGHT;

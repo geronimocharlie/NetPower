@@ -283,6 +283,8 @@ public class Start extends JFrame {
                     size_y = Integer.parseInt(y_textfield.getText());
                     Keys.setAmountCreatures(Integer.parseInt(creature_amount_textfield.getText()));
                     Keys.setAmountFood(Integer.parseInt(food_textfield.getText()));
+                    Keys.setMoveEnergy(Integer.parseInt(move_energy_textfield.getText()));
+
 
                     if (size_x <= 0 || size_y <= 0 || Keys.getAmountCreatures() <= 0 || Keys.getAmountFood() < 0 )
                         JOptionPane.showMessageDialog(Start.this, "Bitte Zahlen > 0 eingeben.", "Falsche Eingabe", JOptionPane.ERROR_MESSAGE);
