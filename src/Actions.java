@@ -2,26 +2,24 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/**
- * Created by Chrono on 19.05.2017.
- */
 public class Actions {
 
-    static int size_x, size_y;
-    static Graphics g;
-    static Paint paint;
-    static World world;
+    private static int size_x, size_y;
+    private static Graphics g;
+    private static Paint paint;
+    private static World world;
     public Actions(int size_x, int size_y, Graphics g) {
-        this.size_x = size_x;
-        this.size_y = size_y;
-        this.g = g;
+        Actions.size_x = size_x;
+        Actions.size_y = size_y;
+        Actions.g = g;
     }
-    public Actions(Paint paint, World world) {
-        this.paint = paint;
-        this.world = world;
+    Actions(Paint paint, World world) {
+        Actions.paint = paint;
+        Actions.world = world;
     }
-    public static void move(Creature creature, int size_x, int size_y ) throws InterruptedException {
-        if(creature.isDead() != true) {
+    static void move(Creature creature, int size_x, int size_y) throws InterruptedException {
+
+        if(!creature.isDead()) {
             ArrayList<int[]> moves = new ArrayList<int[]>();
             moves.add(new int[]{1, 0});
             moves.add(new int[]{0, 1});
@@ -36,22 +34,27 @@ public class Actions {
             if (x > size_x || y > size_y) {
                 die(creature);
             } else {
-                creature.setPosition(new int[]{x, y});
-                creature.setEnergy(creature.getEnergy() - Keys.getMoveEnergy());
+                if(creature.isPregnant()) {
+                    creature.setEnergy(creature.getEnergy() - Keys.getMoveEnergy() * 2);
+                }
+                else {
+                    creature.setPosition(new int[]{x, y});
+                    creature.setEnergy(creature.getEnergy() - Keys.getMoveEnergy());
+                }
+
             }
         }
-        else {
 
-        }
 
     }
     public static void grab(Creature creature) {
 
     }
-    public static void eat(Creature creature) {
-
+    public static void eat(Creature creature, Food food) {
+        creature.setEnergy(creature.getEnergy() + food.getAmount());
+        world.eatFood(food);
     }
-    public static void reproduce(Creature mother, java.util.List<Creature> all) {
+    static void reproduce(Creature mother, java.util.List<Creature> all) {
         int id = Toolkit.getID(all);
         Creature baby = new Creature(id, Keys.getENERGY(), mother.getPosition(), Keys.getSIGHT(), Toolkit.generateSex(), mother.getSize());
         world.addCreature(baby);
@@ -63,12 +66,12 @@ public class Actions {
 
     }
 
-    public static void die(Creature creature) throws InterruptedException {
+    static void die(Creature creature) throws InterruptedException {
         creature.setDead(true);
         world.removeCreature(creature);
     }
 
-    public static void idle() {
+    static void idle() {
 
     }
 }

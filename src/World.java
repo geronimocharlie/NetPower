@@ -271,7 +271,7 @@ public class World extends JFrame {
                 creature.setAge(creature.getAge() + 1);
                 year++;
                 int[][] surround = Toolkit.surroundings(creature, all, foods);
-                System.out.println("");
+                System.out.print("");
                     for (Creature creature2 : all) {
                         if (Toolkit.isNextTo(creature, creature2)) {
                             if (creature.getSex() != creature2.getSex()) {
@@ -284,7 +284,6 @@ public class World extends JFrame {
                                     }
 
                                     if(!mother.isPregnant()) {
-                                        actions.reproduce(mother, all);
                                         mother.setPregnant(true);
                                     }
 
@@ -299,9 +298,17 @@ public class World extends JFrame {
                         Actions.die(creature);
                 }
                 else if((creature.getPregnancyYear() + Keys.getPregnancyInterval() <= year) && creature.isPregnant()) {
+                    actions.reproduce(creature, all);
                     creature.setPregnant(false);
                 }
 
+                synchronized (foods) {
+                    for(Food food : foods) {
+                        if(Toolkit.isNextTo(creature, food)) {
+                            Actions.eat(creature, food);
+                        }
+                    }
+                }
 
 
             }
@@ -328,6 +335,11 @@ public class World extends JFrame {
             baby_queue.add(creature);
         }
     }
+    public void eatFood(Food food) {
+        synchronized (eat_queue) {
+            eat_queue.add(food);
+        }
+    }
     public int getYear() {
 
         return year;
@@ -350,6 +362,12 @@ public class World extends JFrame {
                 all.add(creature);
             }
             baby_queue.clear();
+        }
+        synchronized (eat_queue) {
+            for(Food food : eat_queue) {
+                foods.remove(food);
+            }
+            eat_queue.clear();
         }
 
     }
