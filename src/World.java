@@ -271,8 +271,7 @@ public class World extends JFrame {
                 creature.setAge(creature.getAge() + 1);
                 year++;
                 int[][] surround = Toolkit.surroundings(creature, all, foods);
-                System.out.print("");
-                    for (Creature creature2 : all) {
+                for (Creature creature2 : all) {
                         if (creature.isNextTo(creature2)) {
                             if (creature.getSex() != creature2.getSex()) {
                                 if (creature.getAge() > Keys.getMATURE() && creature2.getAge() > Keys.getMATURE()) {
