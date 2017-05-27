@@ -67,8 +67,6 @@ public class Paint extends JPanel {
         g.drawString("Dead Creatures: " + world.getDead(), 200, 50);
         synchronized (all) {
             for (Creature creature : all) {
-
-
                 if((!Toolkit.checkCiv(all)) || all.size() <= 0) {
                     g.drawString("YOUR CIVILISATION JUST DIED", 200, 200);
                     world.setRunning(false);
@@ -76,7 +74,7 @@ public class Paint extends JPanel {
 
 
 
-                Toolkit.drawCreature(g, creature, scale, creature.size, creature.getPosition()[0], creature.getPosition()[1]);
+                Toolkit.drawCreature(g, creature, scale, creature.getSize(), creature.getPosition()[0], creature.getPosition()[1]);
             }
 
 

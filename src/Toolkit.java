@@ -172,7 +172,6 @@ public class Toolkit {
 
 
                     for (Creature creature1 : all) {
-                        int[] position2 = creature1.getPosition();
                         if (Arrays.equals(creature1.getPosition(), currentPos)) {
                             if(creature1.getId() == creature.getId()) {
                                 surround[u][i] = -1;
@@ -189,8 +188,6 @@ public class Toolkit {
                             surround[u][i] = 2;
                         }
                     }
-
-                System.out.println("");
             }
         }
 
