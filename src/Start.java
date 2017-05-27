@@ -39,6 +39,7 @@ public class Start extends JFrame {
     private JTextField mature_textfield;
     private JTextField max_danger_level_textfield;
     private JTextField die_energy_textfield;
+    private JTextField food_energy_textfield;
 
     private JPanel size_panel;
     private JPanel creature_size_panel;
@@ -110,19 +111,20 @@ public class Start extends JFrame {
         JPanel p_basic = new JPanel();
         setLayout(new BorderLayout());
 
-        GridLayout gl = new GridLayout(12,8, 20, 20);
+        GridLayout gl = new GridLayout(14,8, 20, 20);
         p_basic.setLayout(gl);
 
         JLabel SIZE_LABEL = new JLabel("Size of the field: ");
-        JLabel START_ENERGY_LABEL = new JLabel("Start energy:");
         JLabel AMOUNT_CREATURES_LABEL = new JLabel("Amount of creatures: ");
-        JLabel AMOUNT_FOOD_LABEL = new JLabel("Amount of food sources: ");
         JLabel SIGHT_LABEL = new JLabel("Sight:");
         JLabel SIZE_CREATURES_LABEL = new JLabel("Size of the creatures: ");
         JLabel MATURE_LABEL = new JLabel("Mature:");
         JLabel PREGNANCY_INTERVAL_LABEL = new JLabel("Pregnancy interval:");
         JLabel MOVE_ENERGY_LABEL = new JLabel("Move energy:");
+        JLabel AMOUNT_FOOD_LABEL = new JLabel("Amount of food sources: ");
+        JLabel ENERGY_PER_FOOD_LABEL = new JLabel("Energy per food source:");
         JLabel MAX_DANGER_LEVEL_LABEL = new JLabel("Max danger level:");
+        JLabel START_ENERGY_LABEL = new JLabel("Start energy:");
         JLabel DIE_ENERGY_LABEL = new JLabel("Minimum Energy");
 
         EmptyBorder border = new EmptyBorder(20, 10, 20, 20);
@@ -137,6 +139,7 @@ public class Start extends JFrame {
         MOVE_ENERGY_LABEL.setBorder(border);
         MAX_DANGER_LEVEL_LABEL.setBorder(border);
         DIE_ENERGY_LABEL.setBorder(border);
+        ENERGY_PER_FOOD_LABEL.setBorder(border);
 
         size_panel = new JPanel();
 
@@ -149,6 +152,9 @@ public class Start extends JFrame {
         move_energy_textfield = new JTextField(Keys.getMoveEnergy() + "");
         max_danger_level_textfield = new JTextField(Keys.getMaxDanger() + "");
         die_energy_textfield = new JTextField(Keys.getDeadEnergy() + "");
+        food_energy_textfield = new JTextField(Keys.getEnergyPerFood()+"");
+        pregnancy_interval_textfield = new JTextField(Keys.getPregnancyInterval()+"");
+
 
 
         JLabel l_groesseP = new JLabel(" * ");
@@ -213,18 +219,25 @@ public class Start extends JFrame {
         p_basic.add(sight_textfield);
         p_basic.add(AMOUNT_CREATURES_LABEL);
         p_basic.add(creature_amount_textfield);
+        p_basic.add(SIZE_CREATURES_LABEL);
+        p_basic.add(creature_size_textfield);
+        p_basic.add(PREGNANCY_INTERVAL_LABEL);
+        p_basic.add(pregnancy_interval_textfield);
         p_basic.add(MATURE_LABEL);
         p_basic.add(mature_textfield);
         p_basic.add(MOVE_ENERGY_LABEL);
         p_basic.add(move_energy_textfield);
-        p_basic.add(MAX_DANGER_LEVEL_LABEL);
-        p_basic.add(max_danger_level_textfield);
         p_basic.add(AMOUNT_FOOD_LABEL);
         p_basic.add(food_textfield);
-        p_basic.add(SIZE_CREATURES_LABEL);
-        p_basic.add(creature_size_textfield);
+        p_basic.add(ENERGY_PER_FOOD_LABEL);
+        p_basic.add(food_energy_textfield);
+        p_basic.add(MAX_DANGER_LEVEL_LABEL);
+        p_basic.add(max_danger_level_textfield);
+        p_basic.add(START_ENERGY_LABEL);
+        p_basic.add(start_energy_textfield);
         p_basic.add(DIE_ENERGY_LABEL);
         p_basic.add(die_energy_textfield);
+
         //p_basic.add(more_label);
         //p_basic.add(l_emty);
 
@@ -290,6 +303,12 @@ public class Start extends JFrame {
                     Keys.setAmountFood(getInt(food_textfield.getText()));
                     Keys.setMoveEnergy(getInt(move_energy_textfield.getText()));
                     Keys.setSIGHT(getInt(sight_textfield.getText()));
+                    Keys.setDeadEnergy(Integer.parseInt(die_energy_textfield.getText()));
+                    Keys.setEnergyPerFood(Integer.parseInt(food_energy_textfield.getText()));
+                    Keys.setCreatureSize(Integer.parseInt(creature_size_textfield.getText()));
+                    Keys.setPregnancyInterval(Integer.parseInt(pregnancy_interval_textfield.getText()));
+                    Keys.setMaxDanger(Integer.parseInt(max_danger_level_textfield.getText()));
+                    Keys.setMATURE(Integer.parseInt(mature_textfield.getText()));
 
 
 
