@@ -143,25 +143,26 @@ public class Start extends JFrame {
 
         size_panel = new JPanel();
 
-        start_energy_textfield = new JTextField(Keys.getENERGY() + "");
-        sight_textfield = new JTextField(Keys.getSIGHT() + "");
-        food_textfield = new JTextField(Keys.getAmountFood() + "");
-        creature_size_textfield = new JTextField(Keys.getCreatureSize() + "");
-        creature_amount_textfield = new JTextField(Keys.getAmountCreatures() + "");
-        mature_textfield = new JTextField(Keys.getMATURE() + "");
-        move_energy_textfield = new JTextField(Keys.getMoveEnergy() + "");
-        max_danger_level_textfield = new JTextField(Keys.getMaxDanger() + "");
-        die_energy_textfield = new JTextField(Keys.getDeadEnergy() + "");
-        food_energy_textfield = new JTextField(Keys.getEnergyPerFood()+"");
-        pregnancy_interval_textfield = new JTextField(Keys.getPregnancyInterval()+"");
+        Keys defaults = new Keys();
+        start_energy_textfield = new JTextField(defaults.getENERGY() + "");
+        sight_textfield = new JTextField(defaults.getSIGHT() + "");
+        food_textfield = new JTextField(defaults.getAmountFood() + "");
+        creature_size_textfield = new JTextField(defaults.getCreatureSize() + "");
+        creature_amount_textfield = new JTextField(defaults.getAmountCreatures() + "");
+        mature_textfield = new JTextField(defaults.getMATURE() + "");
+        move_energy_textfield = new JTextField(defaults.getMoveEnergy() + "");
+        max_danger_level_textfield = new JTextField(defaults.getMaxDanger() + "");
+        die_energy_textfield = new JTextField(defaults.getDeadEnergy() + "");
+        food_energy_textfield = new JTextField(defaults.getEnergyPerFood()+"");
+        pregnancy_interval_textfield = new JTextField(defaults.getPregnancyInterval()+"");
 
 
 
         JLabel l_groesseP = new JLabel(" * ");
         l_groesseP.setHorizontalAlignment(JLabel.CENTER);
 
-        x_textfield = new JTextField("100");
-        y_textfield = new JTextField("100");
+        x_textfield = new JTextField(defaults.getSize_x() + "");
+        y_textfield = new JTextField(defaults.getSize_y() + "");
         x_textfield.setColumns(5);
         y_textfield.setColumns(5);
 
@@ -297,31 +298,33 @@ public class Start extends JFrame {
                 System.out.println("Pushed");
                 int size_x, size_y;
                 try {
+                    Keys keys = new Keys();
                     size_x = getInt(x_textfield.getText());
                     size_y = getInt(y_textfield.getText());
-                    Keys.setAmountCreatures(getInt(creature_amount_textfield.getText()));
-                    Keys.setAmountFood(getInt(food_textfield.getText()));
-                    Keys.setMoveEnergy(getInt(move_energy_textfield.getText()));
-                    Keys.setSIGHT(getInt(sight_textfield.getText()));
-                    Keys.setDeadEnergy(Integer.parseInt(die_energy_textfield.getText()));
-                    Keys.setEnergyPerFood(Integer.parseInt(food_energy_textfield.getText()));
-                    Keys.setCreatureSize(Integer.parseInt(creature_size_textfield.getText()));
-                    Keys.setPregnancyInterval(Integer.parseInt(pregnancy_interval_textfield.getText()));
-                    Keys.setMaxDanger(Integer.parseInt(max_danger_level_textfield.getText()));
-                    Keys.setMATURE(Integer.parseInt(mature_textfield.getText()));
+                    keys.setSize_x(size_x);
+                    keys.setSize_y(size_y);
+                    keys.setAmountCreatures(getInt(creature_amount_textfield.getText()));
+                    keys.setAmountFood(getInt(food_textfield.getText()));
+                    keys.setMoveEnergy(getInt(move_energy_textfield.getText()));
+                    keys.setSIGHT(getInt(sight_textfield.getText()));
+                    keys.setDeadEnergy(Integer.parseInt(die_energy_textfield.getText()));
+                    keys.setEnergyPerFood(Integer.parseInt(food_energy_textfield.getText()));
+                    keys.setCreatureSize(Integer.parseInt(creature_size_textfield.getText()));
+                    keys.setPregnancyInterval(Integer.parseInt(pregnancy_interval_textfield.getText()));
+                    keys.setMaxDanger(Integer.parseInt(max_danger_level_textfield.getText()));
+                    keys.setMATURE(Integer.parseInt(mature_textfield.getText()));
 
 
 
-                    if (size_x <= 0 || size_y <= 0 || Keys.getAmountCreatures() <= 0 || Keys.getAmountFood() < 0 )
+                    if (size_x <= 0 || size_y <= 0 || keys.getAmountCreatures() <= 0 || keys.getAmountFood() < 0 )
                         JOptionPane.showMessageDialog(Start.this, "Bitte Zahlen > 0 eingeben.", "Falsche Eingabe", JOptionPane.ERROR_MESSAGE);
                     else {
                         System.out.println("okay");
 
-
                         Point size = new Point(size_x, size_y); //nest = new Point(anzNestX, anzNestY);
                         //new World(all, FPS, ACCURACY, AMOUNT_FOOD, FIELD_SIZE_START, CREATURE_SIZE_START, size);
 
-                        new World(Toolkit.generate(size_x, size_y), Toolkit.generateFood(size_x, size_y), size);
+                        new World(keys);
                         //STOPS HERE !!!!
 
                                             }

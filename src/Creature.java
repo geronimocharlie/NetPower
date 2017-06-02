@@ -164,14 +164,14 @@ public class Creature {
                 die();
             } else {
                 if (isPregnant()) {
-                    setEnergy(getEnergy() - Keys.getMoveEnergy() * 2);
+                    setEnergy(getEnergy() - world.keys.getMoveEnergy() * 2);
                 } else {
                     for (Creature creature1 : all) {
                         if (!Arrays.equals(creature1.getPosition(), new int[]{x, y})) {
                             setPosition(new int[]{x, y});
                         }
                     }
-                    setEnergy(getEnergy() - Keys.getMoveEnergy());
+                    setEnergy(getEnergy() - world.keys.getMoveEnergy());
                 }
             }
         }
@@ -193,10 +193,18 @@ public class Creature {
 
     void reproduce(List<Creature> all) {
         int id = Toolkit.getID(all);
-        Creature baby = new Creature(world, id, Keys.getENERGY(), getPosition(), Keys.getSIGHT(), Toolkit.generateSex(), getSize());
+        Creature baby = new Creature(world, id, world.keys.getENERGY(), getPosition(), world.keys.getSIGHT(), Toolkit.generateSex(), getSize());
         world.addCreature(baby);
 
         setPregnancyYear(world.getYear());
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
     }
 }
 

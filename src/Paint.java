@@ -43,11 +43,11 @@ public class Paint extends JPanel {
     public void paintComponent(Graphics g) {
         //Toolkit.progress("Paint Component");
         super.paintComponent(g);
-        if (i == World.FPS) {
+        if (i == world.keys.getFPS()) {
             steps = world.getSteps();
             i = 0;
             latest = System.currentTimeMillis();
-            fps = (int) (World.FPS * 1000 / (latest - last));
+            fps = (int) (world.keys.getFPS() * 1000 / (latest - last));
             tps = (int) ((steps - lastSteps) * 1000 / (latest - last));
             lastSteps = steps;
             last = latest;
@@ -55,6 +55,7 @@ public class Paint extends JPanel {
         i++;
         g.drawString("FPS: " + fps, 20, 20);
         g.drawString("Steps per sec: " + tps, 100, 20);
+
         g.drawString("Current year: " + world.getYear() / 100, 300, 20);
 
         g.drawString("Current amount of Creatures: " + all.size(), 400, 50);
@@ -67,21 +68,21 @@ public class Paint extends JPanel {
         g.drawString("Dead Creatures: " + world.getDead(), 200, 50);
         synchronized (all) {
             for (Creature creature : all) {
-                if((!Toolkit.checkCiv(all)) || all.size() <= 0) {
+                if((!world.toolkit.checkCiv(all)) || all.size() <= 0) {
                     g.drawString("YOUR CIVILISATION JUST DIED", 200, 200);
                     world.setRunning(false);
                 }
 
 
 
-                Toolkit.drawCreature(g, creature, scale, creature.getSize(), creature.getPosition()[0], creature.getPosition()[1]);
+                world.toolkit.drawCreature(g, creature, scale, creature.getSize(), creature.getPosition()[0], creature.getPosition()[1]);
             }
 
 
         }
         synchronized (foods) {
             for(Food food : foods) {
-                Toolkit.drawFood(g, food, scale, food.getPosition()[0], food.getPosition()[1]);
+                world.toolkit.drawFood(g, food, scale, food.getPosition()[0], food.getPosition()[1]);
             }
         }
 

@@ -15,6 +15,7 @@ import java.util.List;
  * Created by Chrono on 19.05.2017.
  */
 public class World extends JFrame {
+    public Keys keys;
     private int ticks_ps = 500;
     private boolean running = true;
     private int year = 0;
@@ -24,27 +25,28 @@ public class World extends JFrame {
     private List<Creature> baby_queue = new ArrayList<>();
     private List<Food> eat_queue = new ArrayList<>();
     private List<Food> spawn_queue = new ArrayList<>();
-    public static int FPS = Keys.getFPS();
-    public static int ACCURACY = Keys.getACCURACY();
-
+    public int FPS;
+    public int ACCURACY;
+    public Toolkit toolkit;
     private int steps = 0;
     private Field[][] fields;
 
 
-    Actions actions;
-    Point size;
+
     Paint paint;
     Creature lastDead;
     int dead_counter;
 
-    public World(List<Creature> all, List<Food> foods, Point size) {
+    public World(Keys keys) {
 
+
+        this.keys = keys;
+        this.FPS = keys.getFPS();
+        this.ACCURACY = keys.getACCURACY();
+        this.all = generate();
+        this.foods = generateFood();
         paint = new Paint(this, all, foods);
-        this.all = all;
-        this.foods = foods;
-        this.size = size;
-
-
+        toolkit = new Toolkit();
         generateFrame();
 
     }
@@ -52,18 +54,18 @@ public class World extends JFrame {
         System.out.println("World EMPTY!");
     }
 
-    public static List<Creature> generate(World world, int size_x, int size_y) {
+    public List<Creature> generate() {
         progress("Generate Creatures");
         List<Creature> all = Collections.synchronizedList(new ArrayList<Creature>());
 
 
-        for(int i = 0; i < Keys.getAmountCreatures(); i++) {
+        for(int i = 0; i < keys.getAmountCreatures(); i++) {
             int ID = i;
-            int[] position = new int[]{randomPos(size_x),randomPos(size_y)};
-            int sex = generateSex();
+            int[] position = new int[]{Toolkit.randomPos(keys.getSize_x()),Toolkit.randomPos(keys.getSize_y())};
+            int sex = Toolkit.generateSex();
 
-            Creature creature = new Creature(world, ID, Keys.getENERGY(), position, Keys.getSIGHT(), sex, Keys.getCreatureSize());
-            System.out.println("\t" + creature.getId() + ". " + "ENERGY: " + creature.getEnergy() + " - SIGHT: " + Keys.getSIGHT() + " - SEX: " + creature.getSex() + " - SIZE: " + creature.size);
+            Creature creature = new Creature(World.this, ID, keys.getENERGY(), position, keys.getSIGHT(), sex, keys.getCreatureSize());
+            System.out.println("\t" + creature.getId() + ". " + "ENERGY: " + creature.getEnergy() + " - SIGHT: " + keys.getSIGHT() + " - SEX: " + creature.getSex() + " - SIZE: " + creature.size);
             all.add(creature);
         }
         progress("Finished");
@@ -71,11 +73,11 @@ public class World extends JFrame {
     }
 
     public void generateFrame() {
-        Toolkit.progress("Generate World");
+        toolkit.progress("Generate World");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         setSize(700, 700);
-        Toolkit.step("Size set");
+        toolkit.step("Size set");
 
         addWindowListener(new WindowListener() {
 
@@ -111,7 +113,7 @@ public class World extends JFrame {
 
         addComponentListener(new ComponentListener() {
             public void componentResized(ComponentEvent e) {
-                handleResize(size);
+                handleResize();
 
             }
 
@@ -131,11 +133,11 @@ public class World extends JFrame {
             }
         });
         setLocation(0, 0);
-        Toolkit.step("Location set");
-        setLayout(new BorderLayout()); Toolkit.step("Location set");
-        setVisible(true); Toolkit.step("Visibility set");
-        JPanel topMenu = new JPanel(new BorderLayout(20, 20)); Toolkit.step("Top Menu set");
-        topMenu.setBorder(new EmptyBorder(20, 20, 20, 20)); Toolkit.step("Top Menu Border set");
+        toolkit.step("Location set");
+        setLayout(new BorderLayout()); toolkit.step("Location set");
+        setVisible(true); toolkit.step("Visibility set");
+        JPanel topMenu = new JPanel(new BorderLayout(20, 20)); toolkit.step("Top Menu set");
+        topMenu.setBorder(new EmptyBorder(20, 20, 20, 20)); toolkit.step("Top Menu Border set");
 
         JSlider slider = new JSlider(0, 35);
         slider.setValue(5);
@@ -156,13 +158,13 @@ public class World extends JFrame {
         topMenu.add(l_tps, BorderLayout.LINE_START);
         topMenu.add(slider, BorderLayout.LINE_END);
 
-        handleResize(size); Toolkit.step("Resize handled");
+        handleResize(); toolkit.step("Resize handled");
         add(topMenu, BorderLayout.PAGE_START);
-        add(paint, BorderLayout.CENTER); Toolkit.step("Paint added to Layout");
+        add(paint, BorderLayout.CENTER); toolkit.step("Paint added to Layout");
         setVisible(true);
 
 
-        fields = new Field[size.x][size.y];// leeres Feld == null
+        fields = new Field[keys.getSize_x()][keys.getSize_y()];// leeres Feld == null
         paint.setWorld(fields);// referenz der Welt zum zeichenen
 
 
@@ -170,20 +172,18 @@ public class World extends JFrame {
     }
 
     private void startAnimation() {
-        Toolkit.progress("Start Animation");
+        toolkit.progress("Start Animation");
         startDrawThread();
         new Thread() {
             public void run() {
-                Toolkit.step("Animation Thread started");
+                toolkit.step("Animation Thread started");
                 try {
                     int warten;
                     long last = System.currentTimeMillis(), latest;
                     int ticks_ps = World.this.ticks_ps;
-                    Toolkit.step("Ticks PS : " + ticks_ps);
+                    toolkit.step("Ticks PS : " + ticks_ps);
                     float millsStepInterval = 1000f / ticks_ps;
                     int i = 1;
-
-                    actions = new Actions(paint, World.this);
 
                     for (steps = 0; steps < Integer.MAX_VALUE - ticks_ps && running; steps++) {
 
@@ -210,7 +210,7 @@ public class World extends JFrame {
                     e.printStackTrace();
                     interrupt();
                 }
-                Toolkit.step("Animation Thread finished");
+                toolkit.step("Animation Thread finished");
             }
         }.start();
 
@@ -247,15 +247,31 @@ public class World extends JFrame {
 
             }
         }.start();
-        Toolkit.step("Draw Thread finished");
+        toolkit.step("Draw Thread finished");
+    }
+    public List<Food> generateFood() throws NumberFormatException {
+        progress("Generate Food");
+        List<Food> foods = Collections.synchronizedList(new ArrayList<Food>());
+        for(int i = 0; i < keys.getAmountFood(); i++) {
+            int f_id = i;
+            int[] position = new int[]{toolkit.randomPos(keys.getSize_x()),toolkit.randomPos(keys.getSize_y())};
+            //int dangerous = generateSex();
+
+            Food food = new Food(World.this, f_id, keys.getEnergyPerFood(), toolkit.generateDanger(),  position);
+
+            foods.add(food);
+        }
+
+        progress("Finished");
+        return foods;
     }
 
     public int getSteps() {
         return steps;
     }
 
-    private void handleResize(Point size) {// scale so berechnet, dass alles auf das Fenster passt
-        double scale = Math.min(1d * getWidth() / size.x, (1d * getHeight() - 100) / size.y);
+    private void handleResize() {// scale so berechnet, dass alles auf das Fenster passt
+        double scale = Math.min(1d * getWidth() / keys.getSize_x(), (1d * getHeight() - 100) / keys.getSize_y());
         paint.setScale(scale);
 
         synchronized (all) {
@@ -280,18 +296,18 @@ public class World extends JFrame {
                 double moveratio = (double) (Math.random() * creature.getAge() / 100);
 
                 if (moveratio < 5 ) {
-                    creature.move(all, size.x, size.y);
+                    creature.move(all, keys.getSize_x(), keys.getSize_x());
                 } else {
-                    actions.idle();
+
                 }
 
                 creature.setAge(creature.getAge() + 1);
                 year++;
-                int[][] surround = Toolkit.surroundings(creature, all, foods);
+                int[][] surround = toolkit.surroundings(creature, all, foods);
                 for (Creature creature2 : all) {
                         if (creature.isNextTo(creature2)) {
                             if (creature.getSex() != creature2.getSex()) {
-                                if (creature.getAge() > Keys.getMATURE() && creature2.getAge() > Keys.getMATURE()) {
+                                if (creature.getAge() > keys.getMATURE() && creature2.getAge() > keys.getMATURE()) {
                                     Creature mother = null;
                                     if (creature.getSex() == 1) {
                                         mother = creature;
@@ -313,7 +329,7 @@ public class World extends JFrame {
                 if(creature.getEnergy() < 5) {
                         creature.die();
                 }
-                else if((creature.getPregnancyYear() + Keys.getPregnancyInterval() <= year) && creature.isPregnant()) {
+                else if((creature.getPregnancyYear() + keys.getPregnancyInterval() <= year) && creature.isPregnant()) {
                     creature.reproduce(all);
                     creature.setPregnant(false);
                 }
@@ -321,7 +337,7 @@ public class World extends JFrame {
                 synchronized (foods) {
                     for(Food food : foods) {
                         if(creature.isNextTo(food)) {
-                            if(creature.getEnergy() < (Keys.getENERGY() / 2))
+                            if(creature.getEnergy() < (keys.getENERGY() / 2))
                             creature.eat(food);
                         }
                     }
@@ -387,6 +403,10 @@ public class World extends JFrame {
             eat_queue.clear();
         }
 
+    }
+
+    public void progress(String text) {
+        System.out.println("\t> " + text);
     }
 }
 

@@ -14,12 +14,12 @@ public class Main {
 
     }
 
-    public static void generate() {
+    public void generate() {
 
     }
-    public static void debug(int size_x, int size_y) {
+    public void debug(int size_x, int size_y) {
         Point size = new Point(size_x, size_y);
-        World world = new World(Toolkit.generate(size_x, size_y), Toolkit.generateFood(size_x, size_y), size);
+        World world = new World(new Keys());
 
     }
 

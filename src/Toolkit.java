@@ -1,3 +1,4 @@
+import javax.tools.Tool;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,13 +9,16 @@ import java.util.List;
  * Created by Chrono on 19.05.2017.
  */
 public class Toolkit {
-    public static void progress(String text) {
+    public void progress(String text) {
         System.out.println("--- " + text + " ---");
     }
-    public static void step(String text) {
+    public void step(String text) {
         System.out.println("\t> " + text);
     }
 
+    public Toolkit() {
+
+    }
 
     public static void drawFields(Graphics g, double scale, int maxFood, int amountFood, int x, int y) {
         float sizeReal = 4;
@@ -28,7 +32,7 @@ public class Toolkit {
             g.fillOval((int) Math.round(x * scale), (int) Math.round(y * scale), (int) Math.round(sizeReal), (int) Math.round(sizeReal));
 
     }
-    public static void drawCreature(Graphics g, Creature creature, double scale, float sizeReal, int x, int y) {
+    public void drawCreature(Graphics g, Creature creature, double scale, float sizeReal, int x, int y) {
         float creature_size = creature.getSize();
         g.setColor(Color.BLACK);
         if(creature.isDead()) {
@@ -36,14 +40,14 @@ public class Toolkit {
         }
         else {
             if(creature.getSex() == 0) {
-                g.setColor(Keys.getCreatureColors()[0]);
+                g.setColor(creature.getWorld().keys.getCreatureColors()[0]);
             }
             else if (creature.getSex() == 1) {
                 if(creature.isPregnant()) {
                     g.setColor(Color.magenta);
                 }
                 else {
-                    g.setColor(Keys.getCreatureColors()[1]);
+                    g.setColor(creature.getWorld().keys.getCreatureColors()[1]);
                 }
             }
 
@@ -52,12 +56,12 @@ public class Toolkit {
         g.fillOval((int) Math.round(x * scale), (int) Math.round(y * scale), (int) Math.round(creature_size), (int) Math.round(creature_size));
 
     }
-    public static void drawFood(Graphics g, Food food, double scale, int x, int y) {
+    public void drawFood(Graphics g, Food food, double scale, int x, int y) {
         int food_size = food.getSize();
         int dangerous = food.getDangerous();
 
         if(dangerous == 0) {
-            g.setColor(Keys.getFoodColors()[0]);
+            g.setColor(food.getWorld().keys.getFoodColors()[0]);
         }
         /*else if(dangerous == 1) {
             g.setColor(Color.ORANGE);
@@ -66,27 +70,12 @@ public class Toolkit {
             g.setColor(Color.RED);
         }*/
         else {
-            g.setColor(Keys.getFoodColors()[1]);
+            g.setColor(food.getWorld().keys.getFoodColors()[1]);
         }
         g.fillRect((int) Math.round(x * scale), (int) Math.round(y * scale), (int) Math.round(food_size), (int) Math.round(food_size));
     }
 
-    public static List<Food> generateFood(int size_x, int size_y) throws NumberFormatException {
-        progress("Generate Food");
-        List<Food> foods = Collections.synchronizedList(new ArrayList<Food>());
-        for(int i = 0; i < Keys.getAmountFood(); i++) {
-            int f_id = i;
-            int[] position = new int[]{randomPos(size_x),randomPos(size_y)};
-            //int dangerous = generateSex();
 
-            Food food = new Food(f_id, Keys.getEnergyPerFood(), generateDanger(),  position);
-
-            foods.add(food);
-        }
-
-        progress("Finished");
-        return foods;
-    }
 
 
     public static int randomPos(int max) {//, int notAllowed) {
@@ -141,7 +130,7 @@ public class Toolkit {
                 o[i][j] = 1 / (1 + Math.exp(-(x[i][j])));
         return o;
     }
-    public static int[][] surroundings(Creature creature, List<Creature> all, List<Food> foods) {
+    public int[][] surroundings(Creature creature, List<Creature> all, List<Food> foods) {
         int size = creature.getSight() * 2 + 1;
         int[][] surround = new int[size][size];
         int[] position = creature.getPosition();
@@ -198,7 +187,7 @@ public class Toolkit {
         return danger;
     }
 
-    public static boolean checkCiv(List<Creature> all) {
+    public boolean checkCiv(List<Creature> all) {
         boolean male = false;
         boolean female = false;
         synchronized (all) {

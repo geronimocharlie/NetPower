@@ -7,13 +7,15 @@ public class Food {
     private int dangerous; //0 - not dangerous, 1 - spikes, 2 - poison, 3 - radioactive ?
     private int[] position;
     private int size;
+    private World world;
 
 
-    public Food(int f_id, int amount, int dangerous, int[] position) {
+    public Food(World world, int f_id, int amount, int dangerous, int[] position) {
         this.f_id = f_id;
         this.amount = amount;
         this.dangerous = dangerous;
         this.position = position;
+        this.world = world;
     }
 
     public int getF_id() {
@@ -54,5 +56,13 @@ public class Food {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
     }
 }
