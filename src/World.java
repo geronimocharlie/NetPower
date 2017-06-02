@@ -8,6 +8,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,7 +52,23 @@ public class World extends JFrame {
         System.out.println("World EMPTY!");
     }
 
+    public static List<Creature> generate(World world, int size_x, int size_y) {
+        progress("Generate Creatures");
+        List<Creature> all = Collections.synchronizedList(new ArrayList<Creature>());
 
+
+        for(int i = 0; i < Keys.getAmountCreatures(); i++) {
+            int ID = i;
+            int[] position = new int[]{randomPos(size_x),randomPos(size_y)};
+            int sex = generateSex();
+
+            Creature creature = new Creature(world, ID, Keys.getENERGY(), position, Keys.getSIGHT(), sex, Keys.getCreatureSize());
+            System.out.println("\t" + creature.getId() + ". " + "ENERGY: " + creature.getEnergy() + " - SIGHT: " + Keys.getSIGHT() + " - SEX: " + creature.getSex() + " - SIZE: " + creature.size);
+            all.add(creature);
+        }
+        progress("Finished");
+        return all;
+    }
 
     public void generateFrame() {
         Toolkit.progress("Generate World");
@@ -263,7 +280,7 @@ public class World extends JFrame {
                 double moveratio = (double) (Math.random() * creature.getAge() / 100);
 
                 if (moveratio < 5 ) {
-                    actions.move(creature, all, size.x, size.y);
+                    creature.move(all, size.x, size.y);
                 } else {
                     actions.idle();
                 }
@@ -294,10 +311,10 @@ public class World extends JFrame {
                     }
 
                 if(creature.getEnergy() < 5) {
-                        Actions.die(creature);
+                        creature.die();
                 }
                 else if((creature.getPregnancyYear() + Keys.getPregnancyInterval() <= year) && creature.isPregnant()) {
-                    actions.reproduce(creature, all);
+                    creature.reproduce(all);
                     creature.setPregnant(false);
                 }
 
@@ -305,7 +322,7 @@ public class World extends JFrame {
                     for(Food food : foods) {
                         if(creature.isNextTo(food)) {
                             if(creature.getEnergy() < (Keys.getENERGY() / 2))
-                            Actions.eat(creature, food);
+                            creature.eat(food);
                         }
                     }
                 }

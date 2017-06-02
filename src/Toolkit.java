@@ -71,24 +71,6 @@ public class Toolkit {
         g.fillRect((int) Math.round(x * scale), (int) Math.round(y * scale), (int) Math.round(food_size), (int) Math.round(food_size));
     }
 
-    public static List<Creature> generate(int size_x, int size_y) {
-        progress("Generate Creatures");
-        List<Creature> all = Collections.synchronizedList(new ArrayList<Creature>());
-
-
-        for(int i = 0; i < Keys.getAmountCreatures(); i++) {
-            int ID = i;
-            int[] position = new int[]{randomPos(size_x),randomPos(size_y)};
-            int sex = generateSex();
-
-            Creature creature = new Creature(ID, Keys.getENERGY(), position, Keys.getSIGHT(), sex, Keys.getCreatureSize());
-            System.out.println("\t" + creature.getId() + ". " + "ENERGY: " + creature.getEnergy() + " - SIGHT: " + Keys.getSIGHT() + " - SEX: " + creature.getSex() + " - SIZE: " + creature.size);
-            all.add(creature);
-        }
-        progress("Finished");
-        return all;
-    }
-
     public static List<Food> generateFood(int size_x, int size_y) throws NumberFormatException {
         progress("Generate Food");
         List<Food> foods = Collections.synchronizedList(new ArrayList<Food>());
@@ -110,7 +92,7 @@ public class Toolkit {
     public static int randomPos(int max) {//, int notAllowed) {
 
         int x;
-        do { // garantiert, dass keine Futterquelle auf dem Feld des Nestes ist
+        do { // garantiert, dass keine Futterquelle auf dem Feld des Nestes ist // NEIN! -.-
             x = (int) (Math.random() * max);
         } while (x == 2);
         return x;
