@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ba6f3fb-72b3-4e33-8f93-2424fd03ab81" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Actions.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Creature.java" afterPath="$PROJECT_DIR$/src/Creature.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Food.java" afterPath="$PROJECT_DIR$/src/Food.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Keys.java" afterPath="$PROJECT_DIR$/src/Keys.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Paint.java" afterPath="$PROJECT_DIR$/src/Paint.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Start.java" afterPath="$PROJECT_DIR$/src/Start.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Toolkit.java" afterPath="$PROJECT_DIR$/src/Toolkit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/World.java" afterPath="$PROJECT_DIR$/src/World.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Paint.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Paint.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Paint.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="70" column="21" lean-forward="false" selection-start-line="70" selection-start-column="21" selection-end-line="70" selection-end-column="21" />
+            <state relative-caret-position="1683">
+              <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -141,15 +134,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Start.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Start.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Start.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4200">
-              <caret line="315" column="0" lean-forward="false" selection-start-line="315" selection-start-column="0" selection-end-line="315" selection-end-column="0" />
+            <state relative-caret-position="309">
+              <caret line="334" column="44" lean-forward="true" selection-start-line="334" selection-start-column="44" selection-end-line="334" selection-end-column="44" />
               <folding>
-                <element signature="e#17221#17222#0" expanded="true" />
-                <element signature="e#17265#17266#0" expanded="true" />
-                <marker date="1496424007469" expanded="true" signature="12292:13409" ph="{...}" />
+                <element signature="e#17706#17707#0" expanded="true" />
+                <element signature="e#17750#17751#0" expanded="true" />
+                <marker date="1496517875250" expanded="true" signature="12682:13894" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -225,12 +218,12 @@
         <option value="$PROJECT_DIR$/src/Actions.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Keys.java" />
-        <option value="$PROJECT_DIR$/src/Start.java" />
         <option value="$PROJECT_DIR$/src/Food.java" />
         <option value="$PROJECT_DIR$/src/Creature.java" />
         <option value="$PROJECT_DIR$/src/Toolkit.java" />
         <option value="$PROJECT_DIR$/src/World.java" />
         <option value="$PROJECT_DIR$/src/Paint.java" />
+        <option value="$PROJECT_DIR$/src/Start.java" />
       </list>
     </option>
   </component>
@@ -973,7 +966,14 @@
       <option name="project" value="LOCAL" />
       <updated>1495898019985</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="changed too much">
+      <created>1496425481962</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1496425481962</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1051,7 +1051,8 @@
     <MESSAGE value="Pregnancy is now more realistic, takes the PREGNANCY_INTERVAL as time to give birth, turns magenta during pregnancy and stands still. Consumes during pregnancy twice as it would move even if it stands still" />
     <MESSAGE value="Changed the isNextTo function -&gt; creature.isNextTo(creature2 / food). Also set the default text of starter keys to static keys in Keys.java" />
     <MESSAGE value="completed dynamic start settings (except colours)" />
-    <option name="LAST_COMMIT_MESSAGE" value="completed dynamic start settings (except colours)" />
+    <MESSAGE value="changed too much" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed too much" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1166,9 +1167,9 @@
         <state relative-caret-position="3729">
           <caret line="123" column="0" lean-forward="true" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
           <folding>
-            <element signature="e#17221#17222#0" expanded="true" />
-            <element signature="e#17265#17266#0" expanded="true" />
-            <marker date="1496424007469" expanded="true" signature="12292:13409" ph="{...}" />
+            <element signature="e#17706#17707#0" expanded="true" />
+            <element signature="e#17750#17751#0" expanded="true" />
+            <marker date="1496517875250" expanded="true" signature="12682:13894" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1234,9 +1235,9 @@
         <state relative-caret-position="1353">
           <caret line="53" column="8" lean-forward="true" selection-start-line="53" selection-start-column="8" selection-end-line="56" selection-end-column="9" />
           <folding>
-            <element signature="e#17221#17222#0" expanded="true" />
-            <element signature="e#17265#17266#0" expanded="true" />
-            <marker date="1496424007469" expanded="true" signature="12292:13409" ph="{...}" />
+            <element signature="e#17706#17707#0" expanded="true" />
+            <element signature="e#17750#17751#0" expanded="true" />
+            <marker date="1496517875250" expanded="true" signature="12682:13894" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1283,9 +1284,9 @@
         <state relative-caret-position="10824">
           <caret line="328" column="0" lean-forward="false" selection-start-line="328" selection-start-column="0" selection-end-line="328" selection-end-column="0" />
           <folding>
-            <element signature="e#17221#17222#0" expanded="true" />
-            <element signature="e#17265#17266#0" expanded="true" />
-            <marker date="1496424007469" expanded="true" signature="12292:13409" ph="{...}" />
+            <element signature="e#17706#17707#0" expanded="true" />
+            <element signature="e#17750#17751#0" expanded="true" />
+            <marker date="1496517875250" expanded="true" signature="12682:13894" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1409,9 +1410,9 @@
         <state relative-caret-position="11616">
           <caret line="352" column="33" lean-forward="true" selection-start-line="352" selection-start-column="33" selection-end-line="352" selection-end-column="33" />
           <folding>
-            <element signature="e#17221#17222#0" expanded="true" />
-            <element signature="e#17265#17266#0" expanded="true" />
-            <marker date="1496424007469" expanded="true" signature="12292:13409" ph="{...}" />
+            <element signature="e#17706#17707#0" expanded="true" />
+            <element signature="e#17750#17751#0" expanded="true" />
+            <marker date="1496517875250" expanded="true" signature="12682:13894" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1447,18 +1448,6 @@
         <state relative-caret-position="165">
           <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Start.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4200">
-          <caret line="315" column="0" lean-forward="false" selection-start-line="315" selection-start-column="0" selection-end-line="315" selection-end-column="0" />
-          <folding>
-            <element signature="e#17221#17222#0" expanded="true" />
-            <element signature="e#17265#17266#0" expanded="true" />
-            <marker date="1496424007469" expanded="true" signature="12292:13409" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1541,9 +1530,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Paint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="70" column="21" lean-forward="false" selection-start-line="70" selection-start-column="21" selection-end-line="70" selection-end-column="21" />
+        <state relative-caret-position="1683">
+          <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Start.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="334" column="44" lean-forward="true" selection-start-line="334" selection-start-column="44" selection-end-line="334" selection-end-column="44" />
+          <folding>
+            <element signature="e#17706#17707#0" expanded="true" />
+            <element signature="e#17750#17751#0" expanded="true" />
+            <marker date="1496517875250" expanded="true" signature="12682:13894" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>

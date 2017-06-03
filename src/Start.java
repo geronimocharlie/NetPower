@@ -30,6 +30,7 @@ public class Start extends JFrame {
     private JPanel adv_panel3;
 
     private JTextField start_energy_textfield;
+    private JTextField amount_worlds_textfield;
     private JTextField food_textfield;
     private JTextField creature_size_textfield;
     private JTextField creature_amount_textfield;
@@ -116,18 +117,20 @@ public class Start extends JFrame {
 
         JLabel SIZE_LABEL = new JLabel("Size of the field: ");
         JLabel AMOUNT_CREATURES_LABEL = new JLabel("Amount of creatures: ");
-        JLabel SIGHT_LABEL = new JLabel("Sight:");
+        JLabel SIGHT_LABEL = new JLabel("Sight: ");
         JLabel SIZE_CREATURES_LABEL = new JLabel("Size of the creatures: ");
-        JLabel MATURE_LABEL = new JLabel("Mature:");
-        JLabel PREGNANCY_INTERVAL_LABEL = new JLabel("Pregnancy interval:");
-        JLabel MOVE_ENERGY_LABEL = new JLabel("Move energy:");
+        JLabel MATURE_LABEL = new JLabel("Mature: ");
+        JLabel PREGNANCY_INTERVAL_LABEL = new JLabel("Pregnancy interval: ");
+        JLabel MOVE_ENERGY_LABEL = new JLabel("Move energy: ");
         JLabel AMOUNT_FOOD_LABEL = new JLabel("Amount of food sources: ");
-        JLabel ENERGY_PER_FOOD_LABEL = new JLabel("Energy per food source:");
+        JLabel ENERGY_PER_FOOD_LABEL = new JLabel("Energy per food source: ");
         JLabel MAX_DANGER_LEVEL_LABEL = new JLabel("Max danger level:");
-        JLabel START_ENERGY_LABEL = new JLabel("Start energy:");
-        JLabel DIE_ENERGY_LABEL = new JLabel("Minimum Energy");
+        JLabel START_ENERGY_LABEL = new JLabel("Start energy: ");
+        JLabel DIE_ENERGY_LABEL = new JLabel("Minimum Energy: ");
+        JLabel AMOUNT_WORLDS_LABEL = new JLabel("Worlds: ");
 
         EmptyBorder border = new EmptyBorder(20, 10, 20, 20);
+        AMOUNT_WORLDS_LABEL.setBorder(border);
         SIZE_LABEL.setBorder(border);
         START_ENERGY_LABEL.setBorder(border);
         AMOUNT_CREATURES_LABEL.setBorder(border);
@@ -144,6 +147,7 @@ public class Start extends JFrame {
         size_panel = new JPanel();
 
         Keys defaults = new Keys();
+        amount_worlds_textfield = new JTextField("1");
         start_energy_textfield = new JTextField(defaults.getENERGY() + "");
         sight_textfield = new JTextField(defaults.getSIGHT() + "");
         food_textfield = new JTextField(defaults.getAmountFood() + "");
@@ -214,6 +218,8 @@ public class Start extends JFrame {
         });
         JLabel l_emty = new JLabel("");
 
+        p_basic.add(AMOUNT_WORLDS_LABEL);
+        p_basic.add(amount_worlds_textfield);
         p_basic.add(SIZE_LABEL);
         p_basic.add(size_panel);
         p_basic.add(SIGHT_LABEL);
@@ -299,6 +305,7 @@ public class Start extends JFrame {
                 int size_x, size_y;
                 try {
                     Keys keys = new Keys();
+                    int amount_worlds = getInt(amount_worlds_textfield.getText());
                     size_x = getInt(x_textfield.getText());
                     size_y = getInt(y_textfield.getText());
                     keys.setSize_x(size_x);
@@ -324,7 +331,9 @@ public class Start extends JFrame {
                         Point size = new Point(size_x, size_y); //nest = new Point(anzNestX, anzNestY);
                         //new World(all, FPS, ACCURACY, AMOUNT_FOOD, FIELD_SIZE_START, CREATURE_SIZE_START, size);
 
-                        new World(keys);
+                        for(int i = 0; i < amount_worlds; i++) {
+                            new World(keys);
+                        }
                         //STOPS HERE !!!!
 
                                             }

@@ -97,10 +97,6 @@ public class Paint extends JPanel {
         maxFood = maxfutterProQuelle;
     }
 
-    /*public void setAmeisen(Ameise[] ameisen) {
-        this.ameisen = ameisen;
-    }*/
-
     public void setScale(double s) {
         scale = s;
 
